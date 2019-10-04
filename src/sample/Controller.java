@@ -7,10 +7,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.shape.Line;
-
-import java.awt.event.MouseEvent;
 
 public class Controller {
     @FXML
@@ -28,21 +24,18 @@ public class Controller {
     @FXML
     ColorPicker ColorPicker;
 
-
     Model model = new Model ();
-    Line line = new Line();
-    GraphicsContext gc =Canvas.getGraphicsContext2D ();
-
 
     public void initialize() {
 
     }
         public void LineButtonAction(ActionEvent actionEvent){
-       model.selectionModel.select (line);
-        }
 
-        public void CanvasAction(){
-            if ()
+        //actionEvent.getEventType ().getName ();
+       GraphicsContext gc= Canvas.getGraphicsContext2D ();
+/*       gc.getFill (ColorPicker.getCustomColors ());
+       gc.fill (actionEvent.g);*/
+
         }
 
 }
