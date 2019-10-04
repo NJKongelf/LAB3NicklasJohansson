@@ -23,7 +23,7 @@
             <Button fx:id="RectangleButton" layoutX="75.0" layoutY="14.0" mnemonicParsing="false" text="Rectangle" />
             <Button fx:id="LineButton" layoutX="155.0" layoutY="14.0" mnemonicParsing="false" onAction="#LineButtonAction" text="Line" />
             <Button fx:id="PointButton" layoutX="210.0" layoutY="14.0" mnemonicParsing="false" text="Point" />
-            <Canvas fx:id="Canvas" height="258.0" layoutX="14.0" layoutY="53.0" width="249.0" />
+            <Canvas fx:id="Canvas" height="258.0" layoutX="14.0" layoutY="53.0" width="249.0" onDragDetected="#CanvasAction" />
             <ChoiceBox fx:id="Choicebox" layoutX="280.0" layoutY="53.0" prefHeight="25.0" prefWidth="52.0" />
             <ColorPicker fx:id="ColorPicker" layoutX="280.0" layoutY="100.0" prefHeight="25.0" prefWidth="52.0" />
          </children>
