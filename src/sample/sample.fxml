@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <GridPane alignment="center" gridLinesVisible="true" hgap="10" vgap="10">
@@ -21,15 +20,15 @@
             <RowConstraints />
          </rowConstraints>
          <children>
-            <Pane prefHeight="349.0" prefWidth="386.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <Pane prefHeight="505.0" prefWidth="506.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <children>
                   <Button fx:id="CircleButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Circle" />
-                  <Button fx:id="RectangleButton" layoutX="75.0" layoutY="14.0" mnemonicParsing="false" text="Rectangle" />
+                  <Button fx:id="RectangleButton" layoutX="75.0" layoutY="14.0" mnemonicParsing="false" onAction="#RectangleAction" text="Rectangle" />
                   <Button fx:id="LineButton" layoutX="155.0" layoutY="14.0" mnemonicParsing="false" onAction="#LineButtonAction" text="Line" />
                   <Button fx:id="PointButton" layoutX="210.0" layoutY="14.0" mnemonicParsing="false" text="Point" />
-                  <Canvas fx:id="canvas" height="258.0" layoutX="14.0" layoutY="53.0" onDragDetected="#CanvasAction" width="249.0" />
-                  <ChoiceBox fx:id="Choicebox" layoutX="280.0" layoutY="53.0" prefHeight="25.0" prefWidth="52.0" />
-                  <ColorPicker fx:id="ColorPicker" layoutX="280.0" layoutY="100.0" prefHeight="25.0" prefWidth="52.0" />
+                  <Canvas fx:id="canvas" height="428.0" layoutX="14.0" layoutY="53.0" width="423.0" />
+                  <ChoiceBox fx:id="Choicebox" layoutX="440.0" layoutY="53.0" prefHeight="25.0" prefWidth="52.0" />
+                  <ColorPicker fx:id="ColorPicker" layoutX="440.0" layoutY="94.0" prefHeight="25.0" prefWidth="52.0" />
                </children>
             </Pane>
          </children>
