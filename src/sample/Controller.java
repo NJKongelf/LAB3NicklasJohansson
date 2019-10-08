@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
 
 public class Controller {
     @FXML
@@ -29,44 +31,28 @@ public class Controller {
 
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
-
+        model = new Model ();
     }
         public void LineButtonAction(ActionEvent actionEvent){
 
-            gc.setLineWidth (6);
 
             canvas.setOnMousePressed (e-> {
-                gc.setFill (ColorPicker.getValue ());
-                gc.beginPath ();
-                gc.lineTo (e.getX (),e.getY ());
                 gc.setStroke (ColorPicker.getValue ());
-                gc.stroke ();
+                model.line.setStartX (e.getX ());
+                model.line.setStartY (e.getY ());
             });
 
-            canvas.setOnMouseDragged (e -> {
-                gc.setFill (ColorPicker.getValue ());
-                gc.lineTo (e.getX (), e.getY ());
-                gc.setStroke (ColorPicker.getValue ());
-                gc.stroke ();
+            canvas.setOnMouseReleased (e -> {
+                model.line.setEndX (e.getX ());
+                model.line.setEndY (e.getY ());
+                gc.strokeLine (model.line.getStartX (),model.line.getStartY (),model.line.getEndX (),model.line.getEndY ());
             });
-
-
-        //actionEvent.getEventType ().getName ();
-      //
-/*       gc.getFill (ColorPicker.getCustomColors ());
-       gc.fill (actionEvent.g);*/
-
         }
 
     public void CanvasAction(MouseEvent mouseEvent) {
 
 
-//                gc.setLineWidth (6);
-//                gc.setFill (ColorPicker.getValue ());
-//                Double x = f.getX ();
-//                Double y = f.getY ();
-//                //gc.strokeLine (x,y,x,y);
-//                gc.strokeLine (x, y, x, y);
+
 
 
 
