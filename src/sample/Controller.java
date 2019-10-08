@@ -21,19 +21,35 @@ public class Controller {
     @FXML
     ChoiceBox Choicebox;
     @FXML
-    Canvas Canvas;
+    Canvas canvas;
     @FXML
     ColorPicker ColorPicker;
-
+    GraphicsContext gc;
     Model model = new Model ();
 
     public void initialize() {
-        GraphicsContext gc= Canvas.getGraphicsContext2D ();
+        gc= canvas.getGraphicsContext2D ();
+
     }
         public void LineButtonAction(ActionEvent actionEvent){
-            GraphicsContext gc= Canvas.getGraphicsContext2D ();
-        gc.setLineWidth (1);
-        gc.setFill (ColorPicker.getValue ());
+
+            gc.setLineWidth (6);
+
+            canvas.setOnMousePressed (e-> {
+                gc.setFill (ColorPicker.getValue ());
+                gc.beginPath ();
+                gc.lineTo (e.getX (),e.getY ());
+                gc.setStroke (ColorPicker.getValue ());
+                gc.stroke ();
+            });
+
+            canvas.setOnMouseDragged (e -> {
+                gc.setFill (ColorPicker.getValue ());
+                gc.lineTo (e.getX (), e.getY ());
+                gc.setStroke (ColorPicker.getValue ());
+                gc.stroke ();
+            });
+
 
         //actionEvent.getEventType ().getName ();
       //
@@ -43,15 +59,16 @@ public class Controller {
         }
 
     public void CanvasAction(MouseEvent mouseEvent) {
-        GraphicsContext gc= Canvas.getGraphicsContext2D ();
-        Canvas.setOnMouseClicked (e-> {
-            Canvas.setOnMouseDragged (f -> {
-                Double x = f.getX ();
-                Double y = f.getY ();
-                //gc.strokeLine (x,y,x,y);
-                gc.strokeLine (x, y, x, y);
-            });
 
-        });
+
+//                gc.setLineWidth (6);
+//                gc.setFill (ColorPicker.getValue ());
+//                Double x = f.getX ();
+//                Double y = f.getY ();
+//                //gc.strokeLine (x,y,x,y);
+//                gc.strokeLine (x, y, x, y);
+
+
+
     }
 }
