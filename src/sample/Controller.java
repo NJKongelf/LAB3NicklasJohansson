@@ -67,44 +67,25 @@ public class Controller {
             gc.setStroke (ColorPicker.getValue ());
             double x =e.getX();
             double y =e.getY();
-//            rectangle.setX (e.getX ());
-//            rectangle.setY (e.getY ());
+
 
 
             canvas.setOnMouseReleased (d -> {
+                gc.setFill (ColorPicker.getValue ());
 
-                if (x > d.getX()) {
-                    if (y > d.getY()) {
-                        gc.fillOval(d.getX(), d.getY(), x - d.getX(), y - d.getY());
-                    } else if (y < d.getY()) {
-                        gc.fillOval(d.getX(), y, x - d.getX(), d.getY() -y);
-                    } else
-                        gc.fillOval(x, y, d.getX() , d.getY());
-                }
-                else if (y > d.getY()) {
-                    if ( x > d.getX()) {
-                        gc.fillOval(d.getX(), d.getY(), x - d.getX(), y - d.getY());
-                    } else if (x < d.getX()) {
-                        gc.fillOval(x, d.getY(), d.getX() - x , y - d.getY());
-                    } else
-                        gc.fillOval(x, y, d.getX() - x , d.getY() - x);
-                } else
-                    gc.fillOval(x, y, d.getX() - x, d.getY() - y);
+                double width = Math.abs(d.getX() - x);
+                double height = Math.abs(d.getY() - y);
 
-
-
-
-
-//                rectangle.setX (kordX[0]);
-//                rectangle.setY (KordY[0]);
+                rectangle.setX (Math.min(d.getX (), x));
+                rectangle.setY (Math.min(d.getY (), y));
 //
-//                    rectangle.setWidth (Math.abs ( (kordX[1] -rectangle.getX ())));
-//                    rectangle.setHeight (Math.abs ((KordY[1]- rectangle.getY ())));
+                    rectangle.setWidth (width);
+                    rectangle.setHeight (height);
 
                // gc.fillRect (model.rectangle.getX (), model.rectangle.getY (), model.rectangle.getWidth (), model.rectangle.getHeight ());
-                gc.strokeRect (rectangle.getX (), rectangle.getY (), rectangle.getWidth (), rectangle.getHeight ());
+                gc.strokeRect ( rectangle.getX (),rectangle.getY (), rectangle.getWidth (), rectangle.getHeight ());
                 model.getItems ().add (rectangle);
-                //System.out.println (model.getItems ());
+                System.out.println (model.getItems ());
             });
         });
     }
