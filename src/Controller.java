@@ -1,9 +1,11 @@
+import Obj.Rect;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -25,11 +27,12 @@ public class Controller {
     private  GraphicsContext gc;
     private  Model model = new Model ();
     private Line line ;
-    private Rectangle rectangle;
+    private Rect rectangle;
 
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
         model = new Model ();
+        ColorPicker.setValue (Color.BLACK);
 
 
         //model.selectedItemProperty().bind(Canvas.getSelectionModel().selectedItemProperty());
@@ -56,15 +59,19 @@ public class Controller {
     public void RectangleAction(ActionEvent actionEvent) {
 
         canvas.setOnMousePressed (e-> {
-            rectangle = new Rectangle ();
+            rectangle = new Rect (e.getX (),e.getY (),40,20,ColorPicker.getValue ());
             gc.setStroke (ColorPicker.getValue ());
-            double x =e.getX();
-            double y =e.getY();
+//            double x =e.getX();
+//            double y =e.getY();
 
 
 
             canvas.setOnMouseReleased (d -> {
                 gc.setFill (ColorPicker.getValue ());
+                //gc.fillOval (rectangle.getXpos (),rectangle.getYpos (),rectangle.getWidth (),rectangle.getHeight ());
+                gc.fillRect (rectangle.getXpos (),rectangle.getYpos (),rectangle.getWidth (),rectangle.getHeight ());
+
+                /*
 
                 double width = Math.abs(d.getX() - x);
                 double height = Math.abs(d.getY() - y);
@@ -76,8 +83,9 @@ public class Controller {
                     rectangle.setHeight (height);
 
                // gc.fillRect (model.rectangle.getX (), model.rectangle.getY (), model.rectangle.getWidth (), model.rectangle.getHeight ());
-                gc.strokeRect ( rectangle.getX (),rectangle.getY (), rectangle.getWidth (), rectangle.getHeight ());
-                model.getItems ().add (rectangle);
+               / gc.strokeRect (rectangle);
+              //  model.getItems ().add (rectangle);
+  */
                 System.out.println (model.getItems ());
             });
         });

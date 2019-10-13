@@ -1,10 +1,11 @@
+import Obj.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-import java.net.DatagramSocket;
 
 public class Model {
 //    Line line = new Line ();
