@@ -1,11 +1,11 @@
-import Obj.Rect;
+import Obj.*;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -18,6 +18,11 @@ public class Controller {
     ColorPicker ColorPicker;
     @FXML
     Label MouseValue;
+    @FXML
+    ComboBox<DrawShape> droplist;
+    @FXML
+    Slider slider;
+
 
     private  GraphicsContext gc;
     private  Model model = new Model ();
@@ -28,12 +33,12 @@ public class Controller {
         gc= canvas.getGraphicsContext2D ();
         model = new Model ();
         ColorPicker.setValue (Color.BLACK);
-
+        droplist.setItems (model.getItems ());
 
         //model.selectedItemProperty().bind(Canvas.getSelectionModel().selectedItemProperty());
     }
         public void LineButtonAction(ActionEvent actionEvent){
-
+            //TODO ändra denna
             canvas.setOnMousePressed (e-> {
                 line = new Line ();
                 gc.setStroke (ColorPicker.getValue ());
@@ -79,8 +84,9 @@ public class Controller {
 
                // gc.fillRect (model.rectangle.getX (), model.rectangle.getY (), model.rectangle.getWidth (), model.rectangle.getHeight ());
                / gc.strokeRect (rectangle);
-              //  model.getItems ().add (rectangle);
-  */
+              */
+               model.getItems ().add (rectangle);
+
               //  System.out.println (model.getItems ());
             });
         });

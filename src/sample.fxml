@@ -28,8 +28,8 @@
                <children>
                   <Canvas fx:id="canvas" height="392.0" layoutX="14.0" layoutY="47.0" width="761.0" onMouseMoved="#MouseMoveAction" />
                   <ColorPicker fx:id="ColorPicker" layoutX="568.0" layoutY="10.0" />
-                  <ComboBox layoutX="699.0" layoutY="10.0" prefHeight="25.0" prefWidth="128.0" />
-                  <Slider layoutX="795.0" layoutY="93.0" orientation="VERTICAL" prefHeight="293.0" prefWidth="14.0" />
+                  <ComboBox fx:id="droplist" layoutX="699.0" layoutY="10.0" prefHeight="25.0" prefWidth="128.0" />
+                  <Slider fx:id="slider" layoutX="795.0" layoutY="93.0" orientation="VERTICAL" prefHeight="293.0" prefWidth="14.0" />
                   <MenuBar layoutY="10.0" prefHeight="25.0" prefWidth="568.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Arkiv">
