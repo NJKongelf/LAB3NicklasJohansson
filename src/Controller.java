@@ -11,15 +11,6 @@ import javafx.scene.shape.Rectangle;
 
 public class Controller {
     @FXML
-    Button CircleButton;
-    @FXML
-    Button RectangleButton;
-    @FXML
-    Button LineButton;
-    @FXML
-    Button PointButton;
-
-    @FXML
     Canvas canvas;
     @FXML
     ColorPicker ColorPicker;
@@ -50,7 +41,7 @@ public class Controller {
                 line.setEndX (e.getX ());
                 line.setEndY (e.getY ());
                 gc.strokeLine (line.getStartX (),line.getStartY (),line.getEndX (),line.getEndY ());
-                model.getItems ().add (line);
+              //  model.getItems ().add (line);
             });
         }
 
@@ -86,7 +77,7 @@ public class Controller {
                / gc.strokeRect (rectangle);
               //  model.getItems ().add (rectangle);
   */
-                System.out.println (model.getItems ());
+              //  System.out.println (model.getItems ());
             });
         });
     }

@@ -1,5 +1,6 @@
 package Obj;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 
 public class Rect extends Shape {
@@ -26,5 +27,15 @@ public class Rect extends Shape {
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, boolean stroke) {
+
+    }
+
+    @Override
+    public boolean intersects(double x, double y) {
+        return false;
     }
 }

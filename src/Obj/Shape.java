@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Paint;
 
-abstract class Shape {
+abstract class Shape implements DrawShape {
 
     private DoubleProperty xpos = new SimpleDoubleProperty ();
     private DoubleProperty ypos = new SimpleDoubleProperty();

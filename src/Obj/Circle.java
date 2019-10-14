@@ -1,5 +1,6 @@
 package Obj;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 
 public class Circle extends Shape {
@@ -16,5 +17,15 @@ public class Circle extends Shape {
 
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, boolean stroke) {
+
+    }
+
+    @Override
+    public boolean intersects(double x, double y) {
+        return false;
     }
 }

@@ -12,8 +12,8 @@ public class Model {
 //    Rectangle rectangle = new Rectangle ();
 
 
-    private ObservableList<Shape> items = FXCollections.observableArrayList();
-    public ObservableList<Shape> getItems() {
+    private ObservableList<DrawShape> items = FXCollections.observableArrayList();
+    public ObservableList<DrawShape> getItems() {
         return items;
     }
 
