@@ -5,6 +5,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -14,6 +16,8 @@ public class Controller {
     Canvas canvas;
     @FXML
     ColorPicker ColorPicker;
+    @FXML
+    Label MouseValue;
 
     private  GraphicsContext gc;
     private  Model model = new Model ();
@@ -80,5 +84,12 @@ public class Controller {
               //  System.out.println (model.getItems ());
             });
         });
+    }
+
+    public void MouseMoveAction(MouseEvent mouseEvent) {
+        double x =mouseEvent.getX ();
+        double y=mouseEvent.getY ();
+
+        MouseValue.setText ("X:"+x+" Y:"+y);
     }
 }
