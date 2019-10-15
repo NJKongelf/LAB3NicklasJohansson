@@ -34,6 +34,7 @@ public class Controller {
         model = new Model ();
         ColorPicker.setValue (Color.BLACK);
         droplist.setItems (model.getItems ());
+        slider.setValue (50);
 
         //model.selectedItemProperty().bind(Canvas.getSelectionModel().selectedItemProperty());
     }
@@ -59,7 +60,8 @@ public class Controller {
     public void RectangleAction(ActionEvent actionEvent) {
 
         canvas.setOnMousePressed (e-> {
-            rectangle = new Rect (e.getX (),e.getY (),40,20,ColorPicker.getValue ());
+            double s =slider.getValue ();
+            rectangle = new Rect (e.getX (),e.getY (),5*s,2.5*s,ColorPicker.getValue ());
             gc.setStroke (ColorPicker.getValue ());
 //            double x =e.getX();
 //            double y =e.getY();
@@ -71,7 +73,7 @@ public class Controller {
                 //gc.fillOval (rectangle.getXpos (),rectangle.getYpos (),rectangle.getWidth (),rectangle.getHeight ());
                 gc.fillRect (rectangle.getXpos (),rectangle.getYpos (),rectangle.getWidth (),rectangle.getHeight ());
 
-                /*
+                /*TODO tabort onödig kod här
 
                 double width = Math.abs(d.getX() - x);
                 double height = Math.abs(d.getY() - y);
