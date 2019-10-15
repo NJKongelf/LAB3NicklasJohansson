@@ -34,7 +34,8 @@
                     <menus>
                       <Menu mnemonicParsing="false" text="Arkiv">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Close" />
+                            <MenuItem mnemonicParsing="false" text="Spara till fil"/>
+                            <MenuItem mnemonicParsing="false" text="Avsluta" onAction="#ExitChoice"/>
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Form">

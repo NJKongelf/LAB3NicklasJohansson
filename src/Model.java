@@ -9,11 +9,10 @@ import javafx.scene.shape.Shape;
 
 
 public class Model {
-//    Line line = new Line ();
-//    Rectangle rectangle = new Rectangle ();
 
 
     private ObservableList<DrawShape> items = FXCollections.observableArrayList();
+
     public StringProperty selectedItemProperty() {
         return (StringProperty) items;
     }

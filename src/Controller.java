@@ -1,4 +1,5 @@
 import Obj.*;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
@@ -31,6 +32,7 @@ public class Controller {
 
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
+        gc.setFill (Color.WHITE);
         model = new Model ();
         ColorPicker.setValue (Color.BLACK);
         droplist.setItems (model.getItems ());
@@ -61,43 +63,26 @@ public class Controller {
 
         canvas.setOnMousePressed (e-> {
             double s =slider.getValue ();
+
             rectangle = new Rect (e.getX (),e.getY (),5*s,2.5*s,ColorPicker.getValue ());
-            gc.setStroke (ColorPicker.getValue ());
-//            double x =e.getX();
-//            double y =e.getY();
 
-
-
-            canvas.setOnMouseReleased (d -> {
                 gc.setFill (ColorPicker.getValue ());
-                //gc.fillOval (rectangle.getXpos (),rectangle.getYpos (),rectangle.getWidth (),rectangle.getHeight ());
                 gc.fillRect (rectangle.getXpos (),rectangle.getYpos (),rectangle.getWidth (),rectangle.getHeight ());
 
-                /*TODO tabort onödig kod här
-
-                double width = Math.abs(d.getX() - x);
-                double height = Math.abs(d.getY() - y);
-
-                rectangle.setX (Math.min(d.getX (), x));
-                rectangle.setY (Math.min(d.getY (), y));
-//
-                    rectangle.setWidth (width);
-                    rectangle.setHeight (height);
-
-               // gc.fillRect (model.rectangle.getX (), model.rectangle.getY (), model.rectangle.getWidth (), model.rectangle.getHeight ());
-               / gc.strokeRect (rectangle);
-              */
                model.getItems ().add (rectangle);
 
               //  System.out.println (model.getItems ());
             });
-        });
+
     }
 
     public void MouseMoveAction(MouseEvent mouseEvent) {
-        double x =mouseEvent.getX ();
-        double y=mouseEvent.getY ();
-
+        int x = (int) mouseEvent.getX ();
+        int y = (int) mouseEvent.getY ();
         MouseValue.setText ("X:"+x+" Y:"+y);
+    }
+
+    public void ExitChoice() {
+        Platform.exit ();
     }
 }
