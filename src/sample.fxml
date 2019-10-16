@@ -52,7 +52,7 @@
                           <MenuItem mnemonicParsing="false" text="Ångra" />
                           <MenuItem mnemonicParsing="false" onAction="#RectangleAction" text="Rektangel" />
                           <MenuItem mnemonicParsing="false" text="Cirkel" />
-                          <MenuItem mnemonicParsing="false" onAction="#LineButtonAction" text="Linje" />
+                            <MenuItem mnemonicParsing="false" text="Linje"/>
                         </items>
                       </Menu>
 

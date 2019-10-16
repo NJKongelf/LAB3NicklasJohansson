@@ -32,6 +32,8 @@ public class Rect extends Shape {
     @Override
     public void draw(GraphicsContext gc, boolean stroke) {
 
+        gc.setFill (getPaint ());
+        gc.fillRect (getXpos (), getYpos (), getWidth (), getHeight ());
     }
 
     @Override
