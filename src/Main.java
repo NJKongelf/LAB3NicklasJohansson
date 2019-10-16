@@ -11,7 +11,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         primaryStage.setTitle("Shapes and Colors");
-        primaryStage.setScene(new Scene(root, 880, 480));
+        primaryStage.setScene (new Scene (root, 850, 480));
 
         primaryStage.show();
 

@@ -37,6 +37,8 @@ public class Controller {
         ColorPicker.setValue (Color.BLACK);
         droplist.setItems (model.getItems ());
         slider.setValue (50);
+        droplist.setPromptText ("Lager lista");
+        droplist.setAccessibleText (model.getItems ().toString ());
 
         //model.selectedItemProperty().bind(Canvas.getSelectionModel().selectedItemProperty());
     }

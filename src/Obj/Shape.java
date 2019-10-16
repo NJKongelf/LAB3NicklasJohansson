@@ -53,4 +53,10 @@ abstract class Shape implements DrawShape {
     public void setPaint(Paint paint) {
         this.paint.set (paint);
     }
+
+
+    @Override
+    public String toString() {
+        return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get ();
+    }
 }
