@@ -10,9 +10,10 @@ public class Circle extends Shape {
     //private double radius;
     private DoubleProperty radius = new SimpleDoubleProperty ();
 
-    public Circle(double xpos, double ypos, double radius, Color paint) {
+    public Circle(double xpos, double ypos, double radius, Color paint, double size) {
         super(xpos, ypos, paint);
         setRadius (radius);
+        super.setSize (size);
     }
 
     public double getRadius() {
@@ -27,14 +28,12 @@ public class Circle extends Shape {
         this.radius.set (radius);
     }
 
-//    @Override
-//    public void size(double size) {
-//
-//    }
+
 
     @Override
     public void draw(GraphicsContext gc, boolean stroke) {
-
+        gc.setFill (getPaint ());
+        gc.fillOval (getXpos (), getYpos (), getRadius (), getRadius ());
     }
 
     @Override

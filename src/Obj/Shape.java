@@ -15,7 +15,7 @@ abstract class Shape implements DrawShape {
         setXpos(xpos);
         setYpos(ypos);
         this.paint.setValue(paint);
-        // setSize (size);
+
     }
 
     public double getSize() {
@@ -69,6 +69,12 @@ abstract class Shape implements DrawShape {
 
     @Override
     public String toString() {
-        return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get ();
+        if (this instanceof Rect) {
+            return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get ();
+        } else if (this instanceof Circle) {
+            return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get () + " R:" + (int) ((Circle) this).getRadius ();
+        } else {
+            return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get ();
+        }
     }
 }

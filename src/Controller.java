@@ -29,6 +29,7 @@ public class Controller {
     private  Model model = new Model ();
     private Line line ;
     private Rect rectangle;
+    private Circle circle;
     private DrawShape shape;
 
     public void initialize() {
@@ -44,11 +45,11 @@ public class Controller {
             @Override
             public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {
                 if (oldValue != null) {
-                    (oldValue).sizeProperty ().unbindBidirectional (slider.valueProperty ());
-                    (oldValue).paintProperty ().unbindBidirectional (colorPicker.valueProperty ());
+                    slider.valueProperty ().unbindBidirectional ((oldValue).sizeProperty ());
+                    colorPicker.valueProperty ().unbindBidirectional ((oldValue).paintProperty ());
                 }
-                (newValue).sizeProperty ().bindBidirectional (slider.valueProperty ());
-                (newValue).paintProperty ().bindBidirectional (colorPicker.valueProperty ());
+                slider.valueProperty ().bindBidirectional ((newValue).sizeProperty ());
+                colorPicker.valueProperty ().bindBidirectional ((newValue).paintProperty ());
                 shape = (newValue);
             }
         });
@@ -56,13 +57,17 @@ public class Controller {
 
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
 
-        System.out.println ("IamHERE!");
+        //System.out.println ("IamHERE!");
 
         if (shape instanceof Rect) {
             double h = 2.5 * (((Rect) shape).getSize ());
             double w = 5 * (((Rect) shape).getSize ());
             ((Rect) shape).setHeight (h);
             ((Rect) shape).setWidth (w);
+        } else if (shape instanceof Circle) {
+            double R = 3 * (((Circle) shape).getSize ());
+            if (R < 10) R = 10;
+            ((Circle) shape).setRadius (R);
         }
 
         //Draw all shapes
@@ -70,7 +75,7 @@ public class Controller {
 
     }
 
-    public void drawShapes() {
+    private void drawShapes() {
         //Draw all shapes
         gc.clearRect (0, 0, canvas.getWidth (), canvas.getHeight ());
         for (DrawShape shapes : model.getItems ()) {
@@ -79,10 +84,22 @@ public class Controller {
         System.out.println (model.getItems ());
     }
 
-    public void RectangleAction(ActionEvent actionEvent) {
+    public void CircleAction(ActionEvent actionEvent) {
+        canvas.setOnMouseClicked (e -> {
+            double r = 3 * slider.getValue ();
+            circle = new Circle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ());
+            circle.draw (gc, false);
+            model.getItems ().add (circle);
+            droplist.setValue (circle);
+        });
 
-        canvas.setOnMousePressed (e-> {
-            rectangle = new Rect (e.getX (), e.getY (), 5, 2.5, colorPicker.getValue (), slider.getValue ());
+    }
+
+    public void RectangleAction(ActionEvent actionEvent) {
+        canvas.setOnMouseClicked (e -> {
+            double w = slider.getValue () * 5;
+            double h = slider.getValue () * 2.5;
+            rectangle = new Rect (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ());
             rectangle.draw (gc, false);
             model.getItems ().add (rectangle);
             droplist.setValue (rectangle);

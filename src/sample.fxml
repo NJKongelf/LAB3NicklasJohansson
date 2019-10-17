@@ -33,7 +33,8 @@
          <children>
              <Pane prefHeight="480.0" prefWidth="786.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                   <Canvas fx:id="canvas" height="392.0" layoutY="47.0" onMouseMoved="#MouseMoveAction" width="775.0"/>
+                   <Canvas fx:id="canvas" height="392.0" layoutX="-90.0" layoutY="47.0" onMouseMoved="#MouseMoveAction"
+                           width="865.0"/>
                    <ColorPicker fx:id="colorPicker" layoutX="567.0" layoutY="-2.0" prefHeight="27.0" prefWidth="192.0"/>
                    <MenuBar layoutX="-99.0" prefHeight="26.0" prefWidth="666.0">
                     <menus>
@@ -47,8 +48,8 @@
                         <items>
                           <MenuItem mnemonicParsing="false" text="Ångra" />
                           <MenuItem mnemonicParsing="false" onAction="#RectangleAction" text="Rektangel" />
-                          <MenuItem mnemonicParsing="false" text="Cirkel" />
-                            <MenuItem mnemonicParsing="false" text="Linje"/>
+                            <MenuItem mnemonicParsing="false" onAction="#CircleAction" text="Cirkel"/>
+                            <MenuItem mnemonicParsing="false" text="Triangel"/>
                         </items>
                       </Menu>
 

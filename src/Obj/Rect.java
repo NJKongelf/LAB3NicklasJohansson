@@ -11,8 +11,8 @@ public class Rect extends Shape {
     public Rect(double xpos, double ypos, double width, double height, Color paint, double size) {
         super(xpos, ypos, paint);
         super.setSize (size);
-        this.setWidth (super.getSize () * width);
-        this.setHeight (super.getSize () * height);
+        this.setWidth (width);
+        this.setHeight (height);
     }
 
     public double getWidth() {

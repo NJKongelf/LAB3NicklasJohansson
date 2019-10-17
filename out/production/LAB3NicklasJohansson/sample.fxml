@@ -24,15 +24,15 @@
          </columnConstraints>
          <rowConstraints>
              <RowConstraints />
-            <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
              <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
              <RowConstraints maxHeight="638.0000183105468" minHeight="10.0" prefHeight="370.0" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" maxHeight="191.20001220703125" minHeight="10.0" prefHeight="14.999951171875011" vgrow="SOMETIMES" />
+             <RowConstraints fillHeight="false" maxHeight="191.20001220703125" minHeight="10.0" prefHeight="14.999951171875011" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
              <Pane prefHeight="480.0" prefWidth="786.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                   <Canvas fx:id="canvas" height="392.0" layoutY="47.0" onMouseMoved="#MouseMoveAction" width="775.0" />
+                   <Canvas fx:id="canvas" height="392.0" layoutX="-90.0" layoutY="47.0" onMouseMoved="#MouseMoveAction" width="865.0" />
                    <ColorPicker fx:id="colorPicker" layoutX="567.0" layoutY="-2.0" prefHeight="27.0" prefWidth="192.0" />
                    <MenuBar layoutX="-99.0" prefHeight="26.0" prefWidth="666.0">
                     <menus>
@@ -46,8 +46,8 @@
                         <items>
                           <MenuItem mnemonicParsing="false" text="Ångra" />
                           <MenuItem mnemonicParsing="false" onAction="#RectangleAction" text="Rektangel" />
-                          <MenuItem mnemonicParsing="false" text="Cirkel" />
-                            <MenuItem mnemonicParsing="false" text="Linje" />
+                          <MenuItem mnemonicParsing="false" onAction="#CircleAction" text="Cirkel" />
+                            <MenuItem mnemonicParsing="false" text="Triangel" />
                         </items>
                       </Menu>
 
@@ -57,7 +57,7 @@
             </Pane>
              <ComboBox fx:id="droplist" prefHeight="25.0" prefWidth="127.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
              <Label fx:id="MouseValue" text="X:    Y:" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
-            <Label text="Storlek" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+             <Label text="Storlek" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
              <Slider fx:id="slider" orientation="VERTICAL" prefHeight="328.0" prefWidth="14.0" value="50" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
