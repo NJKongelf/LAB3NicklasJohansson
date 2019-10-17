@@ -49,7 +49,6 @@
                           <MenuItem mnemonicParsing="false" text="Ångra" />
                           <MenuItem mnemonicParsing="false" onAction="#RectangleAction" text="Rektangel" />
                             <MenuItem mnemonicParsing="false" onAction="#CircleAction" text="Cirkel"/>
-                            <MenuItem mnemonicParsing="false" text="Triangel"/>
                         </items>
                       </Menu>
 

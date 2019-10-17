@@ -1,18 +1,15 @@
 import Obj.*;
 
 import javafx.beans.Observable;
-import javafx.beans.property.StringProperty;
+//import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.util.Callback;
+import javafx.scene.paint.Color;
 
 
 public class Model {
-
-
+    Rect rect;
+    Circle circle;
     private ObservableList<DrawShape> items = FXCollections.observableArrayList();
 
     public Model() {
@@ -41,11 +38,20 @@ public class Model {
         );
     }
 
-    public StringProperty selectedItemProperty() {
-        return (StringProperty) items;
-    }
+    /*  public StringProperty selectedItemProperty() {
+          return (StringProperty) items;
+      }
+     */
     public ObservableList<DrawShape> getItems() {
         return items;
+    }
+
+    public Circle creationOfCircle(double xpos, double ypos, double radius, Color paint, double size) {
+        return new Circle (xpos, ypos, radius, paint, size);
+    }
+
+    public Rect creationOfRectangle(double xpos, double ypos, double width, double height, Color paint, double size) {
+        return new Rect (xpos, ypos, width, height, paint, size);
     }
 
 }

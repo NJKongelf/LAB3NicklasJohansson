@@ -24,12 +24,8 @@ public class Controller {
     @FXML
     Slider slider;
 
-
     private  GraphicsContext gc;
     private  Model model = new Model ();
-    private Line line ;
-    private Rect rectangle;
-    private Circle circle;
     private DrawShape shape;
 
     public void initialize() {
@@ -55,6 +51,12 @@ public class Controller {
         });
     }
 
+    //<editor-fold desc="Action methods">
+    public void MouseMoveAction(MouseEvent mouseEvent) {
+        int x = (int) mouseEvent.getX ();
+        int y = (int) mouseEvent.getY ();
+        MouseValue.setText ("X:" + x + " Y:" + y);
+    }
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
 
         //System.out.println ("IamHERE!");
@@ -74,6 +76,37 @@ public class Controller {
         drawShapes ();
 
     }
+    //</editor-fold>
+
+
+    //<editor-fold desc="Shape Creation methods">
+    public void RectangleAction(ActionEvent actionEvent) {
+
+        canvas.setOnMouseClicked (e -> {
+            double w = slider.getValue () * 5;
+            double h = slider.getValue () * 2.5;
+            model.getItems ().add (model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ()));
+            afterCreationOfShape ();
+        });
+
+    }
+
+    public void CircleAction(ActionEvent actionEvent) {
+
+        canvas.setOnMouseClicked (e -> {
+            double r = 3 * slider.getValue ();
+            model.getItems ().add (model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ()));
+            afterCreationOfShape ();
+        });
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="Update methods">
+    private void afterCreationOfShape() {
+        droplist.setValue (model.getItems ().get (model.getItems ().size () - 1));
+        drawShapes ();
+    }
 
     private void drawShapes() {
         //Draw all shapes
@@ -83,35 +116,9 @@ public class Controller {
         }
         System.out.println (model.getItems ());
     }
+    //</editor-fold>
 
-    public void CircleAction(ActionEvent actionEvent) {
-        canvas.setOnMouseClicked (e -> {
-            double r = 3 * slider.getValue ();
-            circle = new Circle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ());
-            circle.draw (gc, false);
-            model.getItems ().add (circle);
-            droplist.setValue (circle);
-        });
 
-    }
-
-    public void RectangleAction(ActionEvent actionEvent) {
-        canvas.setOnMouseClicked (e -> {
-            double w = slider.getValue () * 5;
-            double h = slider.getValue () * 2.5;
-            rectangle = new Rect (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ());
-            rectangle.draw (gc, false);
-            model.getItems ().add (rectangle);
-            droplist.setValue (rectangle);
-            });
-
-    }
-
-    public void MouseMoveAction(MouseEvent mouseEvent) {
-        int x = (int) mouseEvent.getX ();
-        int y = (int) mouseEvent.getY ();
-        MouseValue.setText ("X:"+x+" Y:"+y);
-    }
 
     public void ExitChoice() {
         Platform.exit ();
