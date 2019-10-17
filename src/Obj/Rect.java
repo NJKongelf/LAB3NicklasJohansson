@@ -1,16 +1,18 @@
 package Obj;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+
 
 public class Rect extends Shape {
-    double width;
-    double height;
+    private double width;
+    private double height;
 
-    public Rect(double xpos, double ypos, double width, double height, Paint paint) {
+    public Rect(double xpos, double ypos, double width, double height, Color paint, double size) {
         super(xpos, ypos, paint);
-        this.width = width;
-        this.height = height;
+        super.setSize (size);
+        this.setWidth (super.getSize () * width);
+        this.setHeight (super.getSize () * height);
     }
 
     public double getWidth() {
@@ -28,6 +30,12 @@ public class Rect extends Shape {
     public void setHeight(double height) {
         this.height = height;
     }
+
+//    @Override
+////    public void size(double size) {
+////        this.width=this.width*(size/10);
+////        this.height=this.height*(size/10);
+////    }
 
     @Override
     public void draw(GraphicsContext gc, boolean stroke) {

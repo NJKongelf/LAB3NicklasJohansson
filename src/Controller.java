@@ -1,10 +1,9 @@
 import Obj.*;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.Property;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,14 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 public class Controller {
     @FXML
     Canvas canvas;
     @FXML
-    ColorPicker ColorPicker;
+    ColorPicker colorPicker;
     @FXML
     Label MouseValue;
     @FXML
@@ -32,56 +29,63 @@ public class Controller {
     private  Model model = new Model ();
     private Line line ;
     private Rect rectangle;
-    private Shape shape;
+    private DrawShape shape;
 
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
         gc.setFill (Color.WHITE);
         model = new Model ();
-        ColorPicker.setValue (Color.BLACK);
+        colorPicker.setValue (Color.BLACK);
         droplist.setItems (model.getItems ());
         droplist.setPromptText ("Lager lista");
-        droplist.setAccessibleText (model.getItems ().toString ());
-        droplist.setOnAction (this::RectangleAction);// TODO sätt metod för updatering av storlek eller färg!!
         model.getItems ().addListener (this::updateCanvasShapes);
-
+        droplist.setAccessibleText (model.getItems ().toString ());
+        droplist.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<DrawShape> () {
+            @Override
+            public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {
+                if (oldValue != null) {
+                    (oldValue).sizeProperty ().unbindBidirectional (slider.valueProperty ());
+                    (oldValue).paintProperty ().unbindBidirectional (colorPicker.valueProperty ());
+                }
+                (newValue).sizeProperty ().bindBidirectional (slider.valueProperty ());
+                (newValue).paintProperty ().bindBidirectional (colorPicker.valueProperty ());
+                shape = (newValue);
+            }
+        });
     }
 
-    //        public void LineButtonAction(ActionEvent actionEvent){
-//            //TODO ändra denna
-//            canvas.setOnMousePressed (e-> {
-//                line = new Line ();
-//                gc.setStroke (ColorPicker.getValue ());
-//                line.setStartX (e.getX ());
-//               line.setStartY (e.getY ());
-//            });
-//
-//            canvas.setOnMouseReleased (e -> {
-//                line.setEndX (e.getX ());
-//                line.setEndY (e.getY ());
-//                gc.strokeLine (line.getStartX (),line.getStartY (),line.getEndX (),line.getEndY ());
-//              //  model.getItems ().add (line);
-//            });
-//        }
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
-        //Draw all shapes
-        for (DrawShape shape : model.getItems ()) {
-            shape.draw (gc, false);
+
+        System.out.println ("IamHERE!");
+
+        if (shape instanceof Rect) {
+            double h = 2.5 * (((Rect) shape).getSize ());
+            double w = 5 * (((Rect) shape).getSize ());
+            ((Rect) shape).setHeight (h);
+            ((Rect) shape).setWidth (w);
         }
+
+        //Draw all shapes
+        drawShapes ();
+
     }
 
+    public void drawShapes() {
+        //Draw all shapes
+        gc.clearRect (0, 0, canvas.getWidth (), canvas.getHeight ());
+        for (DrawShape shapes : model.getItems ()) {
+            shapes.draw (gc, false);
+        }
+        System.out.println (model.getItems ());
+    }
 
     public void RectangleAction(ActionEvent actionEvent) {
 
         canvas.setOnMousePressed (e-> {
-            double[] pos     = {slider.getValue (), e.getX (), e.getY (), 5, 2.5};
-            double   centerX = pos[1] - ((pos[0] * pos[3]) / 2);
-            double   centerY = pos[2] - ((pos[0] * pos[4]) / 2);
-            rectangle = new Rect (centerX, centerY, pos[0] * pos[3], pos[0] * pos[4], ColorPicker.getValue ());
+            rectangle = new Rect (e.getX (), e.getY (), 5, 2.5, colorPicker.getValue (), slider.getValue ());
             rectangle.draw (gc, false);
             model.getItems ().add (rectangle);
-
-              //  System.out.println (model.getItems ());
+            droplist.setValue (rectangle);
             });
 
     }
@@ -95,4 +99,6 @@ public class Controller {
     public void ExitChoice() {
         Platform.exit ();
     }
+
+
 }

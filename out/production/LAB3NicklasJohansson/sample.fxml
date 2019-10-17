@@ -18,33 +18,28 @@
    <children>
        <GridPane prefHeight="454.0" prefWidth="987.0">
          <columnConstraints>
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-             <ColumnConstraints hgrow="SOMETIMES" maxWidth="781.6000732421875" minWidth="10.0"
-                                prefWidth="734.4000610351562"/>
-             <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.99993896484375" minWidth="10.0"
-                                prefWidth="151.99993896484375"/>
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" maxWidth="781.6000732421875" minWidth="10.0" prefWidth="760.0" />
+             <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.99993896484375" minWidth="10.0" prefWidth="127.0" />
          </columnConstraints>
          <rowConstraints>
-             <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="23.600008010864258"
-                             vgrow="SOMETIMES"/>
-             <RowConstraints maxHeight="638.0000183105468" minHeight="10.0" prefHeight="394.7999919891357"
-                             vgrow="SOMETIMES"/>
-             <RowConstraints fillHeight="false" maxHeight="191.20001220703125" minHeight="10.0"
-                             prefHeight="14.999951171875011" vgrow="SOMETIMES"/>
+             <RowConstraints />
+            <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+             <RowConstraints maxHeight="638.0000183105468" minHeight="10.0" prefHeight="370.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="191.20001220703125" minHeight="10.0" prefHeight="14.999951171875011" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-             <Pane prefHeight="480.0" prefWidth="786.0" GridPane.columnIndex="1">
+             <Pane prefHeight="480.0" prefWidth="786.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                   <Canvas fx:id="canvas" height="392.0" layoutY="47.0" onMouseMoved="#MouseMoveAction" width="775.0"/>
-                   <ColorPicker fx:id="ColorPicker" layoutX="567.0" layoutY="-2.0" prefHeight="31.0" prefWidth="170.0"/>
-                   <Slider fx:id="slider" layoutX="797.0" layoutY="114.0" orientation="VERTICAL" prefHeight="293.0"
-                           prefWidth="14.0" value="50"/>
-                   <MenuBar layoutX="-100.0" layoutY="-2.0" prefHeight="31.0" prefWidth="666.0">
+                   <Canvas fx:id="canvas" height="392.0" layoutY="47.0" onMouseMoved="#MouseMoveAction" width="775.0" />
+                   <ColorPicker fx:id="colorPicker" layoutX="567.0" layoutY="-2.0" prefHeight="27.0" prefWidth="192.0" />
+                   <MenuBar layoutX="-99.0" prefHeight="26.0" prefWidth="666.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Arkiv">
                         <items>
-                            <MenuItem mnemonicParsing="false" text="Spara till fil"/>
-                            <MenuItem mnemonicParsing="false" onAction="#ExitChoice" text="Avsluta"/>
+                            <MenuItem mnemonicParsing="false" text="Spara till fil" />
+                            <MenuItem mnemonicParsing="false" onAction="#ExitChoice" text="Avsluta" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Form">
@@ -52,7 +47,7 @@
                           <MenuItem mnemonicParsing="false" text="Ångra" />
                           <MenuItem mnemonicParsing="false" onAction="#RectangleAction" text="Rektangel" />
                           <MenuItem mnemonicParsing="false" text="Cirkel" />
-                          <MenuItem mnemonicParsing="false" text="Linje" />
+                            <MenuItem mnemonicParsing="false" text="Linje" />
                         </items>
                       </Menu>
 
@@ -60,9 +55,10 @@
                   </MenuBar>
                </children>
             </Pane>
-             <ComboBox fx:id="droplist" prefHeight="27.0" prefWidth="152.0" GridPane.columnIndex="2"/>
-             <Label fx:id="MouseValue" text="X:    Y:" GridPane.halignment="CENTER" GridPane.rowIndex="2"
-                    GridPane.valignment="BOTTOM"/>
+             <ComboBox fx:id="droplist" prefHeight="25.0" prefWidth="127.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+             <Label fx:id="MouseValue" text="X:    Y:" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+            <Label text="Storlek" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+             <Slider fx:id="slider" orientation="VERTICAL" prefHeight="328.0" prefWidth="14.0" value="50" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </children>

@@ -1,21 +1,33 @@
 package Obj;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 abstract class Shape implements DrawShape {
 
     private DoubleProperty xpos = new SimpleDoubleProperty ();
     private DoubleProperty ypos = new SimpleDoubleProperty();
-    private ObjectProperty<Paint> paint = new SimpleObjectProperty<> ();
+    private ObjectProperty<Color> paint = new SimpleObjectProperty<> ();
+    private DoubleProperty size = new SimpleDoubleProperty ();
 
-    public Shape(double xpos, double ypos, Paint paint) {
+    public Shape(double xpos, double ypos, Color paint) {
         setXpos(xpos);
         setYpos(ypos);
         this.paint.setValue(paint);
+        // setSize (size);
+    }
+
+    public double getSize() {
+        return size.get ();
+    }
+
+    public DoubleProperty sizeProperty() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size.set (size);
     }
 
     public double getXpos() {
@@ -42,15 +54,15 @@ abstract class Shape implements DrawShape {
         this.ypos.set (ypos);
     }
 
-    public Paint getPaint() {
+    public Color getPaint() {
         return paint.get ();
     }
 
-    public ObjectProperty<Paint> paintProperty() {
+    public Property<Color> paintProperty() {
         return paint;
     }
 
-    public void setPaint(Paint paint) {
+    public void setPaint(Color paint) {
         this.paint.set (paint);
     }
 

@@ -1,8 +1,9 @@
 package Obj;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 
@@ -13,6 +14,11 @@ public interface DrawShape {
 
     double getXpos();
 
+    DoubleProperty sizeProperty();
+
+    //void size(double size);
+
+
     DoubleProperty xposProperty();
 
     double getYpos();
@@ -21,11 +27,11 @@ public interface DrawShape {
 
     void draw(GraphicsContext gc, boolean stroke);
 
-    Paint getPaint();
+    Color getPaint();
 
-    ObjectProperty<Paint> paintProperty();
+    Property<Color> paintProperty();
 
-    void setPaint(Paint paint);
+    void setPaint(Color paint);
 
     boolean intersects(double x, double y);
 }
