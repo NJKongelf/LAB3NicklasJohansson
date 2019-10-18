@@ -4,13 +4,19 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
 
 public class Controller {
     @FXML
@@ -25,13 +31,19 @@ public class Controller {
     Slider slider;
 
     private  GraphicsContext gc;
-    private  Model model = new Model ();
+    private Model model;
     private DrawShape shape;
+    private Stage stage;
+    private File path;
+
+    public Controller(Model model) {
+        this.model = model;
+    }
 
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
         gc.setFill (Color.WHITE);
-        model = new Model ();
+        //model = new Model ();
         colorPicker.setValue (Color.BLACK);
         droplist.setItems (model.getItems ());
         droplist.setPromptText ("Lager lista");
@@ -49,6 +61,10 @@ public class Controller {
                 shape = (newValue);
             }
         });
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     //<editor-fold desc="Action methods">
@@ -118,11 +134,59 @@ public class Controller {
     }
     //</editor-fold>
 
+    public void openFileDialog(ActionEvent actionEvent) {
+        //Show a file dialog that returns a selected file for opening or null if no file was selected.
+        FileChooser fileChooser = new FileChooser ();
+        fileChooser.setTitle ("Öppna fil");
+        fileChooser.getExtensionFilters ().addAll (
+                //new FileChooser.ExtensionFilter("All files", "*.*"),
+                new FileChooser.ExtensionFilter ("SVG", "*.svg"));
 
+        path = fileChooser.showOpenDialog (stage);
+
+        //Path can be null if abort was selected
+        if (path != null) {
+            //We have a valid File object. Use with FileReader or FileWriter
+            System.out.println (path.getAbsolutePath ());
+        } else {
+            //No file selected
+            System.out.println ("no file");
+        }
+    }
+
+    public void init(Scene scene) {
+        //Capture Ctrl-Z for undo
+        scene.addEventFilter (KeyEvent.KEY_PRESSED,
+                new EventHandler<KeyEvent> () {
+                    final KeyCombination ctrlZ = new KeyCodeCombination (KeyCode.Z,
+                            KeyCombination.CONTROL_DOWN);
+                    final KeyCombination ctrlShiftZ = new KeyCodeCombination (KeyCode.Z,
+                            KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
+
+                    public void handle(KeyEvent ke) {
+                        if (ctrlZ.match (ke)) {
+                            //Undo
+                            System.out.println ("Undo");
+                            ke.consume (); // <-- stops passing the event to next node
+                        } else if (ctrlShiftZ.match (ke)) {
+                            //Redo
+                            System.out.println ("Redo");
+                            ke.consume ();
+                        }
+                    }
+                });
+
+
+    }
 
     public void ExitChoice() {
         Platform.exit ();
     }
 
+    //TODO  Skapa SVG spara funktion
+    //TODO  FIXA INTERSECT
+    //TODO  UNDO/REDO Lista
+
+    //TODO VG:SERVER/CHATT  läsning av SVG format ifrån server
 
 }

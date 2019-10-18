@@ -8,11 +8,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        FXMLLoader loader = new FXMLLoader (getClass ().getResource ("sample.fxml"));
+        Model      model  = new Model ();
+        loader.setControllerFactory (param -> new Controller (model));
+        Parent root = loader.load ();
+
+        Controller controller = loader.getController ();
+        controller.setStage (primaryStage);
 
         primaryStage.setTitle("Shapes and Colors");
         primaryStage.setScene (new Scene (root, 990, 470));
-
+        controller.init (primaryStage.getScene ());
         primaryStage.show();
 
     }
