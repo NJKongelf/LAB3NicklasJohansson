@@ -29,6 +29,10 @@ public class Controller {
     ComboBox<DrawShape> droplist;
     @FXML
     Slider slider;
+    @FXML
+    ToggleButton toggle;
+    @FXML
+    Menu shapeChoiceMenu;
 
     private  GraphicsContext gc;
     private Model model;
@@ -43,7 +47,7 @@ public class Controller {
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
         gc.setFill (Color.WHITE);
-        //model = new Model ();
+        //     toggle.setSelected (false);
         colorPicker.setValue (Color.BLACK);
         droplist.setItems (model.getItems ());
         droplist.setPromptText ("Lager lista");
@@ -61,6 +65,7 @@ public class Controller {
                 shape = (newValue);
             }
         });
+        shapeChoiceMenu.setDisable (true);
     }
 
     public void setStage(Stage stage) {
@@ -73,6 +78,8 @@ public class Controller {
         int y = (int) mouseEvent.getY ();
         MouseValue.setText ("X:" + x + " Y:" + y);
     }
+
+
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
 
         //System.out.println ("IamHERE!");
@@ -97,33 +104,47 @@ public class Controller {
 
     //<editor-fold desc="Shape Creation methods">
     public void RectangleAction(ActionEvent actionEvent) {
-
-        canvas.setOnMouseClicked (e -> {
-            double w = slider.getValue () * 5;
-            double h = slider.getValue () * 2.5;
-            model.getItems ().add (model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ()));
-            afterCreationOfShape ();
-        });
+        if (creationOkOrNot ()) {
+            canvas.setOnMouseClicked (e -> {
+                double w = slider.getValue () * 5;
+                double h = slider.getValue () * 2.5;
+                model.getItems ().add (model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ()));
+                afterCreationOfShape ();
+            });
+        }
 
     }
 
     public void CircleAction(ActionEvent actionEvent) {
-
-        canvas.setOnMouseClicked (e -> {
-            double r = 3 * slider.getValue ();
-            model.getItems ().add (model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ()));
-            afterCreationOfShape ();
-        });
+        if (creationOkOrNot ()) {
+            canvas.setOnMouseClicked (e -> {
+                double r = 3 * slider.getValue ();
+                model.getItems ().add (model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ()));
+                afterCreationOfShape ();
+            });
+        }
     }
-
     //</editor-fold>
 
     //<editor-fold desc="Update methods">
     private void afterCreationOfShape() {
         droplist.setValue (model.getItems ().get (model.getItems ().size () - 1));
         drawShapes ();
+        creationOkOrNot ();
     }
 
+    public boolean creationOkOrNot() {
+        if (!(toggle.isSelected ())) {
+            toggle.setText ("Markera");
+            canvas.setOnMouseClicked (this::mouseClickedOnCanvas);
+            shapeChoiceMenu.setDisable (true);
+            return false;
+        } else {
+            toggle.setText ("Skapa");
+            shapeChoiceMenu.setDisable (false);
+            return true;
+        }
+    }
     private void drawShapes() {
         //Draw all shapes
         gc.clearRect (0, 0, canvas.getWidth (), canvas.getHeight ());
@@ -155,7 +176,7 @@ public class Controller {
     }
 
     public void init(Scene scene) {
-        //Capture Ctrl-Z for undo
+        //Capture Ctrl-Z for undo    TODO KIKA på denna för att fånga knapptryck
         scene.addEventFilter (KeyEvent.KEY_PRESSED,
                 new EventHandler<KeyEvent> () {
                     final KeyCombination ctrlZ = new KeyCodeCombination (KeyCode.Z,
@@ -183,8 +204,20 @@ public class Controller {
         Platform.exit ();
     }
 
+    public void mouseClickedOnCanvas(MouseEvent event) {
+        double x = event.getX ();
+        double y = event.getY ();
+
+        for (DrawShape item : model.getItems ()) {
+            if (item.intersects (x, y)) {
+                droplist.setValue (item);
+            }
+        }
+
+    }
+
     //TODO  Skapa SVG spara funktion
-    //TODO  FIXA INTERSECT
+
     //TODO  UNDO/REDO Lista
 
     //TODO VG:SERVER/CHATT  läsning av SVG format ifrån server

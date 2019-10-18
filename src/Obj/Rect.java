@@ -31,12 +31,6 @@ public class Rect extends Shape {
         this.height = height;
     }
 
-//    @Override
-////    public void size(double size) {
-////        this.width=this.width*(size/10);
-////        this.height=this.height*(size/10);
-////    }
-
     @Override
     public void draw(GraphicsContext gc, boolean stroke) {
 
@@ -46,6 +40,7 @@ public class Rect extends Shape {
 
     @Override
     public boolean intersects(double x, double y) {
-        return false;
+        return x > getXpos () && y > getYpos ()
+                && x < getXpos () + width && y < getYpos () + height;
     }
 }

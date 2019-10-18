@@ -38,10 +38,6 @@ public class Model {
         );
     }
 
-    /*  public StringProperty selectedItemProperty() {
-          return (StringProperty) items;
-      }
-     */
     public ObservableList<DrawShape> getItems() {
         return items;
     }

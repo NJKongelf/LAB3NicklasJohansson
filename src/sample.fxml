@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -36,24 +37,25 @@
                    <Canvas fx:id="canvas" height="392.0" layoutX="-90.0" layoutY="47.0" onMouseMoved="#MouseMoveAction"
                            width="865.0"/>
                    <ColorPicker fx:id="colorPicker" layoutX="567.0" layoutY="-2.0" prefHeight="27.0" prefWidth="192.0"/>
-                   <MenuBar layoutX="-99.0" prefHeight="26.0" prefWidth="666.0">
+                   <MenuBar layoutX="-99.0" prefHeight="26.0" prefWidth="588.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Arkiv">
                         <items>
-                            <MenuItem mnemonicParsing="false" text="Spara till fil"/>
+                            <MenuItem mnemonicParsing="false" onAction="#openFileDialog" text="Spara till fil"/>
                             <MenuItem mnemonicParsing="false" onAction="#ExitChoice" text="Avsluta"/>
                         </items>
                       </Menu>
-                      <Menu mnemonicParsing="false" text="Form">
+                        <Menu fx:id="shapeChoiceMenu" mnemonicParsing="false" text="Form">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Ångra" />
                           <MenuItem mnemonicParsing="false" onAction="#RectangleAction" text="Rektangel" />
                             <MenuItem mnemonicParsing="false" onAction="#CircleAction" text="Cirkel"/>
                         </items>
                       </Menu>
-
+                        <Menu mnemonicParsing="false" text="Ångra"/>
                     </menus>
                   </MenuBar>
+                   <ToggleButton fx:id="toggle" layoutX="488.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0"
+                                 prefWidth="79.0" text="Markera" onMouseClicked="#creationOkOrNot"/>
                </children>
             </Pane>
              <ComboBox fx:id="droplist" prefHeight="25.0" prefWidth="127.0" GridPane.columnIndex="2"

@@ -4,7 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+
 
 public class Circle extends Shape {
     //private double radius;
@@ -33,11 +33,13 @@ public class Circle extends Shape {
     @Override
     public void draw(GraphicsContext gc, boolean stroke) {
         gc.setFill (getPaint ());
-        gc.fillOval (getXpos (), getYpos (), getRadius (), getRadius ());
+        gc.fillOval (getXpos () - (getRadius () / 2), getYpos () - (getRadius () / 2), getRadius (), getRadius ());
     }
 
     @Override
     public boolean intersects(double x, double y) {
-        return false;
+        double divider = getRadius () / 2;
+        return x > getXpos () - divider && x < getXpos () + divider &&
+                y > getYpos () - divider && y < getYpos () + divider;
     }
 }
