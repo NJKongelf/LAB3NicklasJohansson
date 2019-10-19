@@ -41,7 +41,7 @@
                     <menus>
                       <Menu mnemonicParsing="false" text="Arkiv">
                         <items>
-                            <MenuItem mnemonicParsing="false" onAction="#openFileDialog" text="Spara till fil"/>
+                            <MenuItem mnemonicParsing="false" onAction="#saveFileDialog" text="Spara till fil"/>
                             <MenuItem mnemonicParsing="false" onAction="#ExitChoice" text="Avsluta"/>
                         </items>
                       </Menu>

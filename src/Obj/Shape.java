@@ -77,4 +77,8 @@ abstract class Shape implements DrawShape {
             return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get ();
         }
     }
+
+    public String toSVG() {
+        return "";
+    }
 }

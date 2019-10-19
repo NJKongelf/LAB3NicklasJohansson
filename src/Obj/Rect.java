@@ -2,6 +2,7 @@ package Obj;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 
 public class Rect extends Shape {
@@ -42,5 +43,11 @@ public class Rect extends Shape {
     public boolean intersects(double x, double y) {
         return x > getXpos () && y > getYpos ()
                 && x < getXpos () + width && y < getYpos () + height;
+    }
+
+    @Override
+    public String toSVG() {
+        return "<rect x=\"" + (int) getXpos () + "\" y=\"" + (int) getYpos () + "\" width=\"" + (int) width + "\" height=\""
+                + (int) height + "\" fill=\"#" + Integer.toHexString (getPaint ().hashCode ()) + "\" />\n";
     }
 }

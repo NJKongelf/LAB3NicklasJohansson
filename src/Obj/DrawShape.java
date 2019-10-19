@@ -34,4 +34,6 @@ public interface DrawShape {
     void setPaint(Color paint);
 
     boolean intersects(double x, double y);
+
+    String toSVG();
 }

@@ -66,6 +66,8 @@ public class Controller {
             }
         });
         shapeChoiceMenu.setDisable (true);
+        // this.creationOkOrNot();
+
     }
 
     public void setStage(Stage stage) {
@@ -155,20 +157,22 @@ public class Controller {
     }
     //</editor-fold>
 
-    public void openFileDialog(ActionEvent actionEvent) {
+    public void saveFileDialog(ActionEvent actionEvent) {
         //Show a file dialog that returns a selected file for opening or null if no file was selected.
         FileChooser fileChooser = new FileChooser ();
-        fileChooser.setTitle ("Öppna fil");
+        fileChooser.setTitle ("Spara fil");
         fileChooser.getExtensionFilters ().addAll (
                 //new FileChooser.ExtensionFilter("All files", "*.*"),
                 new FileChooser.ExtensionFilter ("SVG", "*.svg"));
+        Filehandler filehandler = new Filehandler ();
+        path = fileChooser.showSaveDialog (stage);
 
-        path = fileChooser.showOpenDialog (stage);
 
         //Path can be null if abort was selected
         if (path != null) {
             //We have a valid File object. Use with FileReader or FileWriter
             System.out.println (path.getAbsolutePath ());
+            filehandler.saveFileSVG (model, path, (int) canvas.getWidth (), (int) canvas.getHeight ());
         } else {
             //No file selected
             System.out.println ("no file");

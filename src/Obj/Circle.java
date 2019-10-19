@@ -42,4 +42,10 @@ public class Circle extends Shape {
         return x > getXpos () - divider && x < getXpos () + divider &&
                 y > getYpos () - divider && y < getYpos () + divider;
     }
+
+    @Override
+    public String toSVG() {
+        return "<circle cx=\"" + (int) getXpos () + "\" cy=\"" + (int) getYpos () + "\" r=\"" + (int) getRadius () / 2 +
+                "\" fill=\"#" + Integer.toHexString (getPaint ().hashCode ()) + "\" />\n";
+    }
 }
