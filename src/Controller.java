@@ -1,4 +1,6 @@
-import Obj.*;
+import Obj.Circle;
+import Obj.DrawShape;
+import Obj.Rect;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,7 +14,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -66,7 +67,7 @@ public class Controller {
                 shape = (newValue);
             }
         });
-        shapeChoiceMenu.setDisable (true);
+        //shapeChoiceMenu.setDisable (true);
         // this.creationOkOrNot();
 
     }
@@ -81,7 +82,6 @@ public class Controller {
         int y = (int) mouseEvent.getY ();
         MouseValue.setText ("X:" + x + " Y:" + y);
     }
-
 
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
 
@@ -137,15 +137,15 @@ public class Controller {
     }
 
     public boolean creationOkOrNot() {
-        if (!(toggle.isSelected ())) {
+        if (toggle.isSelected ()) {
+            toggle.setText ("Skapa");
+            shapeChoiceMenu.setDisable (false);
+            return true;
+        } else {
             toggle.setText ("Markera");
             canvas.setOnMouseClicked (this::mouseClickedOnCanvas);
             shapeChoiceMenu.setDisable (true);
             return false;
-        } else {
-            toggle.setText ("Skapa");
-            shapeChoiceMenu.setDisable (false);
-            return true;
         }
     }
     private void drawShapes() {
