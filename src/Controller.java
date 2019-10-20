@@ -221,8 +221,6 @@ public class Controller {
 
     }
 
-    //TODO  Skapa SVG spara funktion
-
     //TODO  UNDO/REDO Lista
 
     //TODO VG:SERVER/CHATT  läsning av SVG format ifrån server
