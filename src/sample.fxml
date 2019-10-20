@@ -54,8 +54,8 @@
                         <Menu mnemonicParsing="false" text="Ångra"/>
                     </menus>
                   </MenuBar>
-                   <ToggleButton fx:id="toggle" layoutX="488.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0"
-                                 prefWidth="79.0" text="Markera" onMouseClicked="#creationOkOrNot"/>
+                   <ToggleButton fx:id="toggle" layoutX="488.0" layoutY="1.0" mnemonicParsing="false"
+                                 onMouseClicked="#creationOkOrNot" prefHeight="25.0" prefWidth="79.0" text="Markera"/>
                </children>
             </Pane>
              <ComboBox fx:id="droplist" prefHeight="25.0" prefWidth="127.0" GridPane.columnIndex="2"

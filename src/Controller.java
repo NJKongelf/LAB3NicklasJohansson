@@ -53,6 +53,7 @@ public class Controller {
         droplist.setPromptText ("Lager lista");
         model.getItems ().addListener (this::updateCanvasShapes);
         droplist.setAccessibleText (model.getItems ().toString ());
+
         droplist.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<DrawShape> () {
             @Override
             public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {

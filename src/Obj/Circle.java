@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import static java.lang.String.format;
+
 
 public class Circle extends Shape {
     //private double radius;
@@ -46,6 +48,6 @@ public class Circle extends Shape {
     @Override
     public String toSVG() {
         return "<circle cx=\"" + (int) getXpos () + "\" cy=\"" + (int) getYpos () + "\" r=\"" + (int) getRadius () / 2 +
-                "\" fill=\"#" + Integer.toHexString (getPaint ().hashCode ()) + "\" />\n";
+                "\" fill=\"#" + Integer.toHexString (getPaint ().hashCode ()).toUpperCase () + "\" />\n";
     }
 }
