@@ -1,6 +1,9 @@
 import Obj.Circle;
 import Obj.DrawShape;
 import Obj.Rect;
+import UndoAndRedo.DoITcmd;
+import UndoAndRedo.UndoSizeColor;
+import UndoAndRedo.Undochange;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,6 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Stack;
 
 public class Controller {
     @FXML
@@ -41,6 +45,8 @@ public class Controller {
     private Stage stage;
     private File path;
 
+    private Stack<DoITcmd> undolist = new Stack<> ();
+
     public Controller(Model model) {
         this.model = model;
     }
@@ -54,10 +60,10 @@ public class Controller {
         droplist.setPromptText ("Lager lista");
         model.getItems ().addListener (this::updateCanvasShapes);
         droplist.setAccessibleText (model.getItems ().toString ());
-
         droplist.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<DrawShape> () {
             @Override
             public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {
+
                 if (oldValue != null) {
                     slider.valueProperty ().unbindBidirectional ((oldValue).sizeProperty ());
                     colorPicker.valueProperty ().unbindBidirectional ((oldValue).paintProperty ());
@@ -67,6 +73,7 @@ public class Controller {
                 shape = (newValue);
             }
         });
+
         //shapeChoiceMenu.setDisable (true);
         // this.creationOkOrNot();
 
@@ -83,20 +90,33 @@ public class Controller {
         MouseValue.setText ("X:" + x + " Y:" + y);
     }
 
+
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
 
         //       System.out.println ("IamHERE!");
+        while (c.next ())
+            if (c.wasUpdated ()) {
+                if (shape instanceof Rect) {
+                    System.out.println ("Changedlist" + c.getList ());
 
-        if (shape instanceof Rect) {
-            double h = 2.5 * (((Rect) shape).getSize ());
-            double w = 5 * (((Rect) shape).getSize ());
-            ((Rect) shape).setHeight (h);
-            ((Rect) shape).setWidth (w);
-        } else if (shape instanceof Circle) {
-            double R = 3 * (((Circle) shape).getSize ());
-            if (R < 10) R = 10;
-            ((Circle) shape).setRadius (R);
-        }
+
+                    double h = 2.5 * (((Rect) shape).getSize ()); //todo ändra här så den fångar rätt typ av ändring, storlek och färg
+                    double w = 5 * (((Rect) shape).getSize ());
+                    ((Rect) shape).setHeight (h);
+                    ((Rect) shape).setWidth (w);
+                    shape.setPaint (colorPicker.getValue ());
+
+                } else if (shape instanceof Circle) {
+                    undolist.push (new UndoSizeColor (shape, ((Circle) shape).getSize (), shape.getPaint ()));
+                    double R = 3 * (((Circle) shape).getSize ());
+
+                    if (R < 10) R = 10;
+                    ((Circle) shape).setRadius (R);
+                    shape.setPaint (colorPicker.getValue ());
+
+                }
+
+            }
 
         //Draw all shapes
         drawShapes ();
@@ -112,6 +132,7 @@ public class Controller {
                 double w = slider.getValue () * 5;
                 double h = slider.getValue () * 2.5;
                 model.getItems ().add (model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ()));
+                undolist.push (new Undochange (model.getItems ().get (model.getItems ().size () - 1), model.getItems ()));
                 afterCreationOfShape ();
             });
         }
@@ -123,6 +144,7 @@ public class Controller {
             canvas.setOnMouseClicked (e -> {
                 double r = 3 * slider.getValue ();
                 model.getItems ().add (model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ()));
+                undolist.push (new Undochange (model.getItems ().get (model.getItems ().size () - 1), model.getItems ()));
                 afterCreationOfShape ();
             });
         }
@@ -162,8 +184,8 @@ public class Controller {
         //Show a file dialog that returns a selected file for opening or null if no file was selected.
         FileChooser fileChooser = new FileChooser ();
         fileChooser.setTitle ("Spara fil");
+        fileChooser.setInitialDirectory (new File (System.getProperty ("user.dir")));
         fileChooser.getExtensionFilters ().addAll (
-                //new FileChooser.ExtensionFilter("All files", "*.*"),
                 new FileChooser.ExtensionFilter ("SVG", "*.svg"));
         Filehandler filehandler = new Filehandler ();
         path = fileChooser.showSaveDialog (stage);
@@ -181,23 +203,19 @@ public class Controller {
     }
 
     public void init(Scene scene) {
-        //Capture Ctrl-Z for undo    TODO KIKA på denna för att fånga knapptryck
+        //Capture Ctrl-Z for undo
         scene.addEventFilter (KeyEvent.KEY_PRESSED,
                 new EventHandler<KeyEvent> () {
                     final KeyCombination ctrlZ = new KeyCodeCombination (KeyCode.Z,
                             KeyCombination.CONTROL_DOWN);
-                    final KeyCombination ctrlShiftZ = new KeyCodeCombination (KeyCode.Z,
-                            KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
-
                     public void handle(KeyEvent ke) {
                         if (ctrlZ.match (ke)) {
-                            //Undo
+                            if (!undolist.empty ()) {
+                                undolist.pop ().justdoit ();
+                            }
+                            drawShapes ();
                             System.out.println ("Undo");
                             ke.consume (); // <-- stops passing the event to next node
-                        } else if (ctrlShiftZ.match (ke)) {
-                            //Redo
-                            System.out.println ("Redo");
-                            ke.consume ();
                         }
                     }
                 });

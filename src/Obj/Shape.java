@@ -2,7 +2,6 @@ package Obj;
 
 import javafx.beans.property.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 abstract class Shape implements DrawShape {
 
@@ -70,9 +69,9 @@ abstract class Shape implements DrawShape {
     @Override
     public String toString() {
         if (this instanceof Rect) {
-            return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get ();
+            return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get () + " Paint: " + getPaint ();
         } else if (this instanceof Circle) {
-            return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get () + " R:" + (int) ((Circle) this).getRadius ();
+            return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get () + " R:" + (int) ((Circle) this).getRadius () + " Paint: " + getPaint ();
         } else {
             return getClass ().getSimpleName () + " X:" + (int) xpos.get () + " Y:" + (int) ypos.get () + " Size:" + (int) size.get ();
         }

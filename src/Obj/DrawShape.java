@@ -4,7 +4,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 
 public interface DrawShape {
@@ -16,7 +15,7 @@ public interface DrawShape {
 
     DoubleProperty sizeProperty();
 
-    //void size(double size);
+    void setSize(double size);
 
 
     DoubleProperty xposProperty();
