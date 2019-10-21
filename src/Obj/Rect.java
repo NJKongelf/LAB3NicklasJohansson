@@ -2,9 +2,6 @@ package Obj;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-
-import static java.lang.String.format;
 
 
 public class Rect extends Shape {
@@ -50,7 +47,10 @@ public class Rect extends Shape {
 
     @Override
     public String toSVG() {
+//        return "<rect x=\"" + (int) getXpos () + "\" y=\"" + (int) getYpos () + "\" width=\"" + (int) width + "\" height=\""
+//                + (int) height + "\" fill=\"#" + Integer.toHexString (getPaint ().hashCode ()).toUpperCase () + "\" />\n";
+//    }
         return "<rect x=\"" + (int) getXpos () + "\" y=\"" + (int) getYpos () + "\" width=\"" + (int) width + "\" height=\""
-                + (int) height + "\" fill=\"#" + Integer.toHexString (getPaint ().hashCode ()).toUpperCase () + "\" />\n";
+                + (int) height + "\" fill=\"#" + getPaint ().toString ().substring (2, 8) + "\" />\n";
     }
 }

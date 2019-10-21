@@ -85,7 +85,7 @@ public class Controller {
 
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
 
-        //System.out.println ("IamHERE!");
+        //       System.out.println ("IamHERE!");
 
         if (shape instanceof Rect) {
             double h = 2.5 * (((Rect) shape).getSize ());
@@ -132,7 +132,7 @@ public class Controller {
     //<editor-fold desc="Update methods">
     private void afterCreationOfShape() {
         droplist.setValue (model.getItems ().get (model.getItems ().size () - 1));
-        drawShapes ();
+        //drawShapes ();
         creationOkOrNot ();
     }
 
