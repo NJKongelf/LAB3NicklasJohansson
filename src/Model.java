@@ -54,13 +54,5 @@ public class Model {
     public Rect creationOfRectangle(double xpos, double ypos, double width, double height, Color paint, double size) {
         return new Rect (xpos, ypos, width, height, paint, size);
     }
-//    public void insertIntoUndolist(DrawShape oldShape){
-//        undoList.push ((DrawShape) new Undochange (oldShape,items));
-//       // items.add (newShape);
-////        int i = items.indexOf (oldShape);
-////        items.set (i,newShape);
-//    }
-//    public void undoChange() {
-//        undoList.pop ().
-//    }
+
 }

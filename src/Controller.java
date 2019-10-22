@@ -25,6 +25,7 @@ import java.io.File;
 import java.util.Stack;
 
 public class Controller {
+    //<editor-fold desc="Declarations">
     @FXML
     Canvas canvas;
     @FXML
@@ -45,11 +46,12 @@ public class Controller {
     private DrawShape shape;
     private Stage stage;
     private Stack<DoITcmd> undolist = new Stack<> ();
+    //</editor-fold>
 
+    //<editor-fold desc="Setup to controls and keys">
     public Controller(Model model) {
         this.model = model;
     }
-
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
         gc.setFill (Color.WHITE);
@@ -75,19 +77,47 @@ public class Controller {
         });
 
     }
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    public void init(Scene scene) {
+        //Capture Ctrl-Z for undo
+        scene.addEventFilter (KeyEvent.KEY_PRESSED,
+                new EventHandler<KeyEvent> () {
+                    final KeyCombination ctrlZ = new KeyCodeCombination (KeyCode.Z,
+                            KeyCombination.CONTROL_DOWN);
+
+                    public void handle(KeyEvent ke) {
+                        if (ctrlZ.match (ke)) {
+                            undoRequest ();
+                            ke.consume (); // <-- stops passing the event to next node
+                        }
+                    }
+                });
+
+
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Action methods">
-    public void MouseMoveAction(MouseEvent mouseEvent) {
+    public void mouseMoveAction(MouseEvent mouseEvent) {
         int x = (int) mouseEvent.getX ();
         int y = (int) mouseEvent.getY ();
         MouseValue.setText ("X:" + x + " Y:" + y);
     }
 
+    public void mouseClickedOnCanvas(MouseEvent event) {
+        double x = event.getX ();
+        double y = event.getY ();
 
+        for (DrawShape item : model.getItems ()) {
+            if (item.intersects (x, y)) {
+                droplist.setValue (item);
+            }
+        }
+
+    }
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
                 if (shape instanceof Rect) {
                     double h = 2.5 * (shape.getSize ());
@@ -104,9 +134,8 @@ public class Controller {
     }
     //</editor-fold>
 
-
     //<editor-fold desc="Shape Creation methods">
-    public void RectangleAction(ActionEvent actionEvent) {
+    public void rectangleAction(ActionEvent actionEvent) {
         if (creationOkOrNot ()) {
             canvas.setOnMouseClicked (e -> {
                 double w = slider.getValue () * 5;
@@ -119,7 +148,7 @@ public class Controller {
 
     }
 
-    public void CircleAction(ActionEvent actionEvent) {
+    public void circleAction(ActionEvent actionEvent) {
         if (creationOkOrNot ()) {
             canvas.setOnMouseClicked (e -> {
                 double r = 3 * slider.getValue ();
@@ -137,7 +166,6 @@ public class Controller {
         //drawShapes ();
         creationOkOrNot ();
     }
-
     public boolean creationOkOrNot() {
         if (toggle.isSelected ()) {
             toggle.setText ("Skapa");
@@ -157,10 +185,35 @@ public class Controller {
             for (DrawShape shapes : model.getItems ()) {
                 shapes.draw (gc, false);
             }
-            System.out.println (model.getItems ());
+            //  System.out.println (model.getItems ());
         }
     }
     //</editor-fold>
+
+    //<editor-fold desc="Change and undo methods">
+    public void sizeChanged(MouseEvent dragEvent) {
+        colorChanged (dragEvent);
+    }
+
+    public void colorChanged(Event event) {
+        undolist.push (new UndoSizeColor (shape, shape.getSize (), colorPicker.getValue ()));
+    }
+
+    public void undoRequest() {
+        if (!(undolist.empty ())) {
+            undolist.pop ().justdoit ();
+        }
+    }
+
+    public void undoRequestFromMenu(ActionEvent actionEven) {
+        undoRequest ();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="User Choices">
+    public void exitChoice() {
+        Platform.exit ();
+    }
 
     public void saveFileDialog(ActionEvent actionEvent) {
         //Show a file dialog that returns a selected file for opening or null if no file was selected.
@@ -182,52 +235,5 @@ public class Controller {
             System.out.println ("no file");
         }
     }
-
-    public void init(Scene scene) {
-        //Capture Ctrl-Z for undo
-        scene.addEventFilter (KeyEvent.KEY_PRESSED,
-                new EventHandler<KeyEvent> () {
-                    final KeyCombination ctrlZ = new KeyCodeCombination (KeyCode.Z,
-                            KeyCombination.CONTROL_DOWN);
-                    public void handle(KeyEvent ke) {
-                        if (ctrlZ.match (ke)) {
-                            if (!(undolist.empty ())) {
-
-                                undolist.pop ().justdoit ();
-
-                            }
-                            ke.consume (); // <-- stops passing the event to next node
-                            // drawShapes ();
-                            System.out.println ("Undo");
-
-                        }
-                    }
-                });
-
-
-    }
-
-    public void ExitChoice() {
-        Platform.exit ();
-    }
-
-    public void mouseClickedOnCanvas(MouseEvent event) {
-        double x = event.getX ();
-        double y = event.getY ();
-
-        for (DrawShape item : model.getItems ()) {
-            if (item.intersects (x, y)) {
-                droplist.setValue (item);
-            }
-        }
-
-    }
-
-    public void SizeChanged(MouseEvent dragEvent) {
-        colorChanged (dragEvent);
-    }
-
-    public void colorChanged(Event event) {
-        undolist.push (new UndoSizeColor (shape, shape.getSize (), colorPicker.getValue ()));
-    }
+    //</editor-fold>
 }

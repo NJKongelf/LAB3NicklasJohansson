@@ -28,7 +28,10 @@ public class Circle extends Shape {
         this.radius.set (radius);
     }
 
-
+    @Override
+    public void setSize(double size) {
+        super.setSize (size);
+    }
 
     @Override
     public void draw(GraphicsContext gc, boolean stroke) {
