@@ -1,7 +1,7 @@
-package UndoAndRedo;
+package undoAndRedo;
 
-import Obj.DrawShape;
 import javafx.scene.paint.Color;
+import obj.DrawShape;
 
 public class UndoSizeColor implements DoITcmd {
     private DrawShape shape;

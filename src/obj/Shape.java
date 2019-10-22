@@ -1,4 +1,4 @@
-package Obj;
+package obj;
 
 import javafx.beans.property.*;
 import javafx.scene.paint.Color;

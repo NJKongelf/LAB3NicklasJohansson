@@ -1,0 +1,6 @@
+module LAB3NicklasJohansson {
+    requires javafx.controls;
+    requires javafx.fxml;
+
+    opens src to javafx.graphics,javafx.fxml;
+}

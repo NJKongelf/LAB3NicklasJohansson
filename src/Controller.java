@@ -1,14 +1,9 @@
-import Obj.Circle;
-import Obj.DrawShape;
-import Obj.Rect;
-import UndoAndRedo.DoITcmd;
-import UndoAndRedo.UndoSizeColor;
-import UndoAndRedo.Undochange;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -19,6 +14,12 @@ import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import obj.Circle;
+import obj.DrawShape;
+import obj.Rect;
+import undoAndRedo.DoITcmd;
+import undoAndRedo.UndoSizeColor;
+import undoAndRedo.Undochange;
 
 import java.io.File;
 import java.util.Stack;
@@ -63,19 +64,16 @@ public class Controller {
         droplist.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<DrawShape> () {
             @Override
             public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {
-
                 if (oldValue != null) {
                     slider.valueProperty ().unbindBidirectional ((oldValue).sizeProperty ());
                     colorPicker.valueProperty ().unbindBidirectional ((oldValue).paintProperty ());
+                } else if (newValue != null) {
+                    slider.valueProperty ().bindBidirectional ((newValue).sizeProperty ());
+                    colorPicker.valueProperty ().bindBidirectional ((newValue).paintProperty ());
+                    shape = (newValue);
                 }
-                slider.valueProperty ().bindBidirectional ((newValue).sizeProperty ());
-                colorPicker.valueProperty ().bindBidirectional ((newValue).paintProperty ());
-                shape = (newValue);
             }
         });
-
-        //shapeChoiceMenu.setDisable (true);
-        // this.creationOkOrNot();
 
     }
 
@@ -99,20 +97,20 @@ public class Controller {
                 if (shape instanceof Rect) {
                     System.out.println ("Changedlist" + c.getList ());
 
-
+                    //undolist.push (new UndoSizeColor (shape, ((Rect) shape).getSize (), shape.getPaint ()));
                     double h = 2.5 * (((Rect) shape).getSize ()); //todo ändra här så den fångar rätt typ av ändring, storlek och färg
                     double w = 5 * (((Rect) shape).getSize ());
                     ((Rect) shape).setHeight (h);
                     ((Rect) shape).setWidth (w);
-                    shape.setPaint (colorPicker.getValue ());
+                    // shape.setPaint (colorPicker.getValue ());
 
                 } else if (shape instanceof Circle) {
-                    undolist.push (new UndoSizeColor (shape, ((Circle) shape).getSize (), shape.getPaint ()));
+                    // undolist.push (new UndoSizeColor (shape, ((Circle) shape).getSize (), shape.getPaint ()));
                     double R = 3 * (((Circle) shape).getSize ());
 
                     if (R < 10) R = 10;
                     ((Circle) shape).setRadius (R);
-                    shape.setPaint (colorPicker.getValue ());
+                    // shape.setPaint (colorPicker.getValue ());
 
                 }
 
@@ -173,10 +171,12 @@ public class Controller {
     private void drawShapes() {
         //Draw all shapes
         gc.clearRect (0, 0, canvas.getWidth (), canvas.getHeight ());
-        for (DrawShape shapes : model.getItems ()) {
-            shapes.draw (gc, false);
+        if (!model.getItems ().isEmpty ()) {
+            for (DrawShape shapes : model.getItems ()) {
+                shapes.draw (gc, false);
+            }
+            System.out.println (model.getItems ());
         }
-        System.out.println (model.getItems ());
     }
     //</editor-fold>
 
@@ -210,12 +210,15 @@ public class Controller {
                             KeyCombination.CONTROL_DOWN);
                     public void handle(KeyEvent ke) {
                         if (ctrlZ.match (ke)) {
-                            if (!undolist.empty ()) {
+                            if (!(undolist.empty ())) {
+
                                 undolist.pop ().justdoit ();
+
                             }
-                            drawShapes ();
-                            System.out.println ("Undo");
                             ke.consume (); // <-- stops passing the event to next node
+                            // drawShapes ();
+                            System.out.println ("Undo");
+
                         }
                     }
                 });
@@ -239,8 +242,15 @@ public class Controller {
 
     }
 
+    public void SizeChanged(MouseEvent dragEvent) {
+        colorChanged (dragEvent);
+    }
+
+    public void colorChanged(Event event) {
+        undolist.push (new UndoSizeColor (shape, shape.getSize (), colorPicker.getValue ()));
+    }
+
     //TODO  UNDO/REDO Lista
 
-    //TODO VG:SERVER/CHATT  läsning av SVG format ifrån server
 
 }

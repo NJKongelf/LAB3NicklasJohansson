@@ -24,7 +24,7 @@
                <children>
                    <Canvas fx:id="canvas" height="392.0" layoutX="-90.0" layoutY="47.0" onMouseMoved="#MouseMoveAction"
                            width="865.0"/>
-                   <ColorPicker fx:id="colorPicker" layoutX="567.0" layoutY="-2.0" prefHeight="27.0" prefWidth="192.0"/>
+                   <ColorPicker fx:id="colorPicker" layoutX="567.0" layoutY="-2.0" prefHeight="27.0" prefWidth="192.0" onShowing="#colorChanged"/>
                    <MenuBar layoutX="-99.0" prefHeight="26.0" prefWidth="588.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Arkiv">
@@ -55,7 +55,7 @@
                     GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS"/>
              <Slider fx:id="slider" orientation="VERTICAL" prefHeight="328.0" prefWidth="14.0" value="50"
                      GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3"
-                     GridPane.valignment="CENTER"/>
+                     GridPane.valignment="CENTER" onMousePressed= "#SizeChanged"/>
          </children>
       </GridPane>
    </children>

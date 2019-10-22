@@ -1,6 +1,7 @@
-package UndoAndRedo;
-import Obj.DrawShape;
+package undoAndRedo;
+
 import javafx.collections.ObservableList;
+import obj.DrawShape;
 
 public class Undochange implements DoITcmd {
 

@@ -1,4 +1,4 @@
-package Obj;
+package obj;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
@@ -17,6 +17,7 @@ public interface DrawShape {
 
     void setSize(double size);
 
+    double getSize();
 
     DoubleProperty xposProperty();
 
