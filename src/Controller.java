@@ -44,8 +44,6 @@ public class Controller {
     private Model model;
     private DrawShape shape;
     private Stage stage;
-    private File path;
-
     private Stack<DoITcmd> undolist = new Stack<> ();
 
     public Controller(Model model) {
@@ -64,10 +62,11 @@ public class Controller {
         droplist.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<DrawShape> () {
             @Override
             public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {
-                if (oldValue != null) {
-                    slider.valueProperty ().unbindBidirectional ((oldValue).sizeProperty ());
-                    colorPicker.valueProperty ().unbindBidirectional ((oldValue).paintProperty ());
-                } else if (newValue != null) {
+                if (newValue != null) {
+                    if (oldValue != null) {
+                        slider.valueProperty ().unbindBidirectional ((oldValue).sizeProperty ());
+                        colorPicker.valueProperty ().unbindBidirectional ((oldValue).paintProperty ());
+                    }
                     slider.valueProperty ().bindBidirectional ((newValue).sizeProperty ());
                     colorPicker.valueProperty ().bindBidirectional ((newValue).paintProperty ());
                     shape = (newValue);
@@ -90,35 +89,18 @@ public class Controller {
 
 
     public void updateCanvasShapes(ListChangeListener.Change<? extends DrawShape> c) {
-
-        //       System.out.println ("IamHERE!");
-        while (c.next ())
-            if (c.wasUpdated ()) {
                 if (shape instanceof Rect) {
-                    System.out.println ("Changedlist" + c.getList ());
-
-                    //undolist.push (new UndoSizeColor (shape, ((Rect) shape).getSize (), shape.getPaint ()));
-                    double h = 2.5 * (((Rect) shape).getSize ()); //todo ändra här så den fångar rätt typ av ändring, storlek och färg
-                    double w = 5 * (((Rect) shape).getSize ());
+                    double h = 2.5 * (shape.getSize ());
+                    double w = 5 * (shape.getSize ());
                     ((Rect) shape).setHeight (h);
                     ((Rect) shape).setWidth (w);
-                    // shape.setPaint (colorPicker.getValue ());
-
                 } else if (shape instanceof Circle) {
-                    // undolist.push (new UndoSizeColor (shape, ((Circle) shape).getSize (), shape.getPaint ()));
-                    double R = 3 * (((Circle) shape).getSize ());
-
+                    double R = 3 * (shape.getSize ());
                     if (R < 10) R = 10;
                     ((Circle) shape).setRadius (R);
-                    // shape.setPaint (colorPicker.getValue ());
-
                 }
-
-            }
-
         //Draw all shapes
         drawShapes ();
-
     }
     //</editor-fold>
 
@@ -188,7 +170,7 @@ public class Controller {
         fileChooser.getExtensionFilters ().addAll (
                 new FileChooser.ExtensionFilter ("SVG", "*.svg"));
         Filehandler filehandler = new Filehandler ();
-        path = fileChooser.showSaveDialog (stage);
+        File        path        = fileChooser.showSaveDialog (stage);
 
 
         //Path can be null if abort was selected
@@ -197,7 +179,6 @@ public class Controller {
             System.out.println (path.getAbsolutePath ());
             filehandler.saveFileSVG (model, path, (int) canvas.getWidth (), (int) canvas.getHeight ());
         } else {
-            //No file selected
             System.out.println ("no file");
         }
     }
@@ -249,8 +230,4 @@ public class Controller {
     public void colorChanged(Event event) {
         undolist.push (new UndoSizeColor (shape, shape.getSize (), colorPicker.getValue ()));
     }
-
-    //TODO  UNDO/REDO Lista
-
-
 }
