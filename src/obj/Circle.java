@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 
 public class Circle extends Shape {
-    //private double radius;
+
     private DoubleProperty radius = new SimpleDoubleProperty ();
 
     public Circle(double xpos, double ypos, double radius, Color paint, double size) {
@@ -27,12 +27,6 @@ public class Circle extends Shape {
     public void setRadius(double radius) {
         this.radius.set (radius);
     }
-
-    @Override
-    public void setSize(double size) {
-        super.setSize (size);
-    }
-
     @Override
     public void draw(GraphicsContext gc, boolean stroke) {
         gc.setFill (getPaint ());
