@@ -59,11 +59,12 @@ public class Controller {
         droplist.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<DrawShape> () {
             @Override
             public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {
+                if (oldValue != null) {
+                    slider.valueProperty ().unbindBidirectional ((oldValue).sizeProperty ());
+                    colorPicker.valueProperty ().unbindBidirectional ((oldValue).paintProperty ());
+                }
                 if (newValue != null) {
-                    if (oldValue != null) {
-                        slider.valueProperty ().unbindBidirectional ((oldValue).sizeProperty ());
-                        colorPicker.valueProperty ().unbindBidirectional ((oldValue).paintProperty ());
-                    }
+
                     slider.valueProperty ().bindBidirectional ((newValue).sizeProperty ());
                     colorPicker.valueProperty ().bindBidirectional ((newValue).paintProperty ());
                     shape = (newValue);
