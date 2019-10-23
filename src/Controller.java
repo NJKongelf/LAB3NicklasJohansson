@@ -51,7 +51,6 @@ public class Controller {
     public void initialize() {
         gc= canvas.getGraphicsContext2D ();
         gc.setFill (Color.WHITE);
-        //     toggle.setSelected (false);
         colorPicker.setValue (Color.BLACK);
         droplist.setItems (model.getItems ());
         droplist.setPromptText ("Lager lista");
@@ -193,10 +192,6 @@ public class Controller {
 
     public void colorChanged(Event event) {
         model.undoPushChangeSizeColor (shape);
-    }
-
-    public void undoRequest() {
-        model.undoPop ();
     }
 
     public void undoRequestFromMenu(ActionEvent actionEven) {
