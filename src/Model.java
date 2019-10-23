@@ -19,18 +19,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Model {
-    Socket socket;
+    private Socket socket;
     private Stack<DoITcmd> undolist = new Stack<> ();
     private ObservableList<DrawShape> items = FXCollections.observableArrayList();
-    PrintWriter writer;
-    BufferedReader reader;
-    ExecutorService threadPool;
-    StringProperty message = new SimpleStringProperty ("");
+    private PrintWriter writer;
+    private BufferedReader reader;
+    private ExecutorService threadPool;
+    private StringProperty message = new SimpleStringProperty ("");
     private ObservableList<String> chatMessages = FXCollections.observableArrayList ();
     private SimpleBooleanProperty connected = new SimpleBooleanProperty (false);
 
@@ -93,9 +94,11 @@ public class Model {
         );
     }
 
+    //<editor-fold desc="Network methods">
     public ObservableList<String> getChatMessages() {
         return chatMessages;
     }
+
 
     public boolean isConnected() {
         return connected.get ();
@@ -152,24 +155,85 @@ public class Model {
             //Send message to server
             final String mess = message.get ();
             threadPool.submit (() -> writer.println (mess));
-            message.setValue ("");
+            //message.setValue ("");
         }
     }
 
     private void receiveMessages() {
-        while (true) {
-            try {
-                String message = reader.readLine ();
-                Platform.runLater (() ->
-                        chatMessages.add (message)
-                );
-            } catch (IOException e) {
-                e.printStackTrace ();
-                Platform.runLater (() ->
-                        setConnected (false)
-                );
-                return;
+        try {
+            while (!Thread.interrupted ()) {
+                try {
+                    String message = "";
+                    if (!isConnected ())
+                        reader.close ();
+                    else {
+                        message = reader.readLine ();
+                        double   x     = 0;
+                        double   y     = 0;
+                        double   r     = 0;
+                        double   w     = 0;
+                        double   h     = 0;
+                        String[] mess  = message.split ("\"");
+                        String   color = "";
+                        if (message.contains ("<circle")) {
+                            x = Double.parseDouble (mess[1]);
+                            y = Double.parseDouble (mess[3]);
+                            r = Double.parseDouble (mess[5]);
+                            if (mess.length == 8) {
+                                if (mess[6].contains ("fill="))
+                                    color = mess[7];
+                            } else
+                                color = "#000000";
+                            items.add (creationOfCircle (x, y, r, Color.valueOf (color), 10));
+                        }
+                        if (message.contains ("<rect")) {
+                            if (mess[0].contains ("x="))
+                                x = Double.parseDouble (mess[1]);
+                            y = Double.parseDouble (mess[3]);
+                            w = Double.parseDouble (mess[5]);
+                            h = Double.parseDouble (mess[7]);
+                            if (mess.length == 9) {
+                                if (mess[8].contains ("fill="))
+                                    color = mess[9];
+                            } else
+                                color = "#000000";
+                            items.add (creationOfRectangle (x, y, w, h, Color.valueOf (color), 10));
+                        }
+
+                        Platform.runLater (() ->
+                                //     chatMessages.add (message)
+                                System.out.println (Arrays.toString (mess))
+                        );
+                    }
+                } catch (Exception e) {
+                    // e.printStackTrace ();
+
+                    Platform.runLater (() ->
+                            setConnected (false)
+                    );
+                    return;
+                }
             }
+        } catch (Exception e) {
+            System.out.println ("Closed");
         }
     }
+
+    public void socketClose(boolean threadclose) {
+        try {
+            if (socket.isConnected ()) {
+                socket.close ();
+                setConnected (false);
+            }
+            // if(threadclose) {
+            if (!threadPool.isShutdown ()) {
+                threadPool.shutdownNow ();
+            }
+            // }
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+
+    }
+    //</editor-fold>
 }

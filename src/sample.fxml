@@ -3,6 +3,7 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
        <GridPane prefHeight="454.0" prefWidth="987.0">
@@ -15,9 +16,10 @@
              <RowConstraints/>
              <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES"/>
              <RowConstraints maxHeight="473.5999755859375" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES"/>
-             <RowConstraints maxHeight="638.0000183105468" minHeight="10.0" prefHeight="370.0" vgrow="SOMETIMES"/>
+             <RowConstraints maxHeight="638.0000183105468" minHeight="10.0" prefHeight="363.1999877929687"
+                             vgrow="SOMETIMES"/>
              <RowConstraints fillHeight="false" maxHeight="191.20001220703125" minHeight="10.0"
-                             prefHeight="14.999951171875011" vgrow="SOMETIMES"/>
+                             prefHeight="22.40001220703124" vgrow="SOMETIMES"/>
          </rowConstraints>
          <children>
              <Pane prefHeight="480.0" prefWidth="786.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -29,7 +31,7 @@
                    <ToggleButton fx:id="toggle" layoutX="488.0" layoutY="1.0" mnemonicParsing="false"
                                  onMouseClicked="#creationOkOrNot" prefHeight="25.0" prefWidth="79.0" selected="true"
                                  text="Skapa"/>
-                   <MenuBar layoutX="-101.0" layoutY="-2.0" prefHeight="28.0" prefWidth="510.0">
+                   <MenuBar layoutX="-101.0" layoutY="-2.0" prefHeight="28.0" prefWidth="509.0">
                     <menus>
                       <Menu mnemonicParsing="false" text="Arkiv">
                         <items>
@@ -43,11 +45,18 @@
                             <MenuItem mnemonicParsing="false" onAction="#circleAction" text="Cirkel"/>
                         </items>
                       </Menu>
+                        <Menu mnemonicParsing="false" text="Nätverk">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#sendAction" text="Connect"/>
+                                <MenuItem mnemonicParsing="false" onAction="#disconnectAction" text="Disconnect"
+                                          disable="true"/>
+                            </items>
+                        </Menu>
                     </menus>
 
                    </MenuBar>
-                   <Button layoutX="409.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0"
-                           text="Ångra" onAction="#undoRequestFromMenu"/>
+                   <Button layoutX="409.0" layoutY="1.0" mnemonicParsing="false" onAction="#undoRequestFromMenu"
+                           prefHeight="25.0" prefWidth="79.0" text="Ångra"/>
                </children>
             </Pane>
              <ComboBox fx:id="droplist" prefHeight="25.0" prefWidth="127.0" GridPane.columnIndex="2"
@@ -59,6 +68,13 @@
              <Slider fx:id="slider" onMousePressed="#sizeChanged" onMouseReleased="#sizeChanged" orientation="VERTICAL"
                      prefHeight="328.0" prefWidth="14.0" value="50" GridPane.columnIndex="2"
                      GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER"/>
+             <Label fx:id="labelconnect" alignment="CENTER" prefHeight="18.0" prefWidth="71.0" text="Connected"
+                    textFill="#068c09" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4"
+                    GridPane.valignment="CENTER">
+                 <font>
+                     <Font name="System Bold" size="13.0"/>
+                 </font>
+             </Label>
          </children>
       </GridPane>
    </children>

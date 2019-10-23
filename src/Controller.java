@@ -42,6 +42,8 @@ public class Controller {
     ToggleButton toggle;
     @FXML
     Menu shapeChoiceMenu;
+    @FXML
+    Label labelconnect;
 
     private  GraphicsContext gc;
     private Model model;
@@ -62,6 +64,7 @@ public class Controller {
         droplist.setPromptText ("Lager lista");
         model.getItems ().addListener (this::updateCanvasShapes);
         droplist.setAccessibleText (model.getItems ().toString ());
+        labelconnect.visibleProperty ().bindBidirectional (model.connectedProperty ());
         droplist.getSelectionModel ().selectedItemProperty ().addListener (new ChangeListener<DrawShape> () {
             @Override
             public void changed(ObservableValue<? extends DrawShape> observable, DrawShape oldValue, DrawShape newValue) {
@@ -138,12 +141,20 @@ public class Controller {
     //<editor-fold desc="Shape Creation methods">
     public void rectangleAction(ActionEvent actionEvent) {
         if (creationOkOrNot ()) {
+
             canvas.setOnMouseClicked (e -> {
                 double w = slider.getValue () * 5;
                 double h = slider.getValue () * 2.5;
-                model.getItems ().add (model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ()));
-                model.undoPushChange ();
-                afterCreationOfShape ();
+                if (model.isConnected ()) {
+                    shape = model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ());
+                    model.setMessage (shape.toSVG ());
+                    sendAction (actionEvent);
+                } else {
+                    model.getItems ().add (model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ()));
+                    model.undoPushChange ();
+                    afterCreationOfShape ();
+                }
+
             });
         }
 
@@ -153,9 +164,16 @@ public class Controller {
         if (creationOkOrNot ()) {
             canvas.setOnMouseClicked (e -> {
                 double r = 3 * slider.getValue ();
-                model.getItems ().add (model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ()));
-                model.undoPushChange ();
-                afterCreationOfShape ();
+                if (model.isConnected ()) {
+                    shape = model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ());
+                    model.setMessage (shape.toSVG ());
+                    sendAction (actionEvent);
+                } else {
+                    model.getItems ().add (model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ()));
+                    model.undoPushChange ();
+                    afterCreationOfShape ();
+                }
+
             });
         }
     }
@@ -207,7 +225,9 @@ public class Controller {
 
     //<editor-fold desc="User Choices">
     public void exitChoice() {
+
         Platform.exit ();
+
     }
 
     public void saveFileDialog(ActionEvent actionEvent) {
@@ -247,11 +267,16 @@ public class Controller {
                 //Run in threadpool?
                 model.connect (hostPort.getKey (), hostPort.getValue ());
                 //Check that we are connected now?
-                //model.sendMessage();
+                model.sendMessage ();
             });
         }
+
     }
 
+    public void disconnectAction(ActionEvent event) {
+        model.socketClose (true);
+
+    }
     public Optional<Pair<String, Integer>> showDialog() {
         // Create the custom dialog.
         Dialog<Pair<String, Integer>> dialog = new Dialog<> ();
