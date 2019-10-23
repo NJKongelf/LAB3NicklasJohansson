@@ -250,7 +250,7 @@ public class Controller {
     }
     //</editor-fold>
 
-
+    //<editor-fold desc="Network connection action">
     public void sendAction(ActionEvent actionEvent) {
         if (model.isConnected ())
             model.sendMessage ();
@@ -321,4 +321,5 @@ public class Controller {
 
         return dialog.showAndWait ();
     }
+    //</editor-fold>
 }
