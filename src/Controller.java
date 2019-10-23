@@ -17,12 +17,8 @@ import javafx.stage.Stage;
 import obj.Circle;
 import obj.DrawShape;
 import obj.Rect;
-import undoAndRedo.DoITcmd;
-import undoAndRedo.UndoSizeColor;
-import undoAndRedo.Undochange;
 
 import java.io.File;
-import java.util.Stack;
 
 public class Controller {
     //<editor-fold desc="Declarations">
@@ -45,7 +41,7 @@ public class Controller {
     private Model model;
     private DrawShape shape;
     private Stage stage;
-    private Stack<DoITcmd> undolist = new Stack<> ();
+
     //</editor-fold>
 
     //<editor-fold desc="Setup to controls and keys">
@@ -90,7 +86,7 @@ public class Controller {
 
                     public void handle(KeyEvent ke) {
                         if (ctrlZ.match (ke)) {
-                            undoRequest ();
+                            model.undoPop ();
                             ke.consume (); // <-- stops passing the event to next node
                         }
                     }
@@ -141,7 +137,7 @@ public class Controller {
                 double w = slider.getValue () * 5;
                 double h = slider.getValue () * 2.5;
                 model.getItems ().add (model.creationOfRectangle (e.getX () - (w / 2), e.getY () - (h / 2), w, h, colorPicker.getValue (), slider.getValue ()));
-                undolist.push (new Undochange (model.getItems ().get (model.getItems ().size () - 1), model.getItems ()));
+                model.undoPushChange ();
                 afterCreationOfShape ();
             });
         }
@@ -153,7 +149,7 @@ public class Controller {
             canvas.setOnMouseClicked (e -> {
                 double r = 3 * slider.getValue ();
                 model.getItems ().add (model.creationOfCircle (e.getX (), e.getY (), r, colorPicker.getValue (), slider.getValue ()));
-                undolist.push (new Undochange (model.getItems ().get (model.getItems ().size () - 1), model.getItems ()));
+                model.undoPushChange ();
                 afterCreationOfShape ();
             });
         }
@@ -192,21 +188,19 @@ public class Controller {
 
     //<editor-fold desc="Change and undo methods">
     public void sizeChanged(MouseEvent dragEvent) {
-        colorChanged (dragEvent);
+        model.undoPushChangeSizeColor (shape);
     }
 
     public void colorChanged(Event event) {
-        undolist.push (new UndoSizeColor (shape, shape.getSize (), colorPicker.getValue ()));
+        model.undoPushChangeSizeColor (shape);
     }
 
     public void undoRequest() {
-        if (!(undolist.empty ())) {
-            undolist.pop ().justdoit ();
-        }
+        model.undoPop ();
     }
 
     public void undoRequestFromMenu(ActionEvent actionEven) {
-        undoRequest ();
+        model.undoPop ();
     }
     //</editor-fold>
 

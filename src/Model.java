@@ -5,16 +5,15 @@ import javafx.scene.paint.Color;
 import obj.Circle;
 import obj.DrawShape;
 import obj.Rect;
+import undoAndRedo.DoITcmd;
+import undoAndRedo.UndoSizeColor;
+import undoAndRedo.Undochange;
 
 import java.util.Stack;
-
-//import javafx.beans.property.StringProperty;
-
-
 public class Model {
     Rect rect;
     Circle circle;
-    private Stack<DrawShape> undoList = new Stack<> ();
+    private Stack<DoITcmd> undolist = new Stack<> ();
     private ObservableList<DrawShape> items = FXCollections.observableArrayList();
 
     public Model() {
@@ -42,11 +41,11 @@ public class Model {
                 }
         );
     }
-
     public ObservableList<DrawShape> getItems() {
         return items;
     }
 
+    //<editor-fold desc="Create shapes">
     public Circle creationOfCircle(double xpos, double ypos, double radius, Color paint, double size) {
         return new Circle (xpos, ypos, radius, paint, size);
     }
@@ -55,4 +54,20 @@ public class Model {
         return new Rect (xpos, ypos, width, height, paint, size);
     }
 
+    //</editor-fold>
+    //<editor-fold desc="Undo methods">
+    public void undoPushChange() {
+        undolist.push (new Undochange (items.get (items.size () - 1), items));
+    }
+
+    public void undoPushChangeSizeColor(DrawShape shape) {
+        undolist.push (new UndoSizeColor (shape, shape.getSize (), shape.getPaint ()));
+    }
+
+    public void undoPop() {
+        if (!(undolist.empty ())) {
+            undolist.pop ().justdoit ();
+        }
+    }
+    //</editor-fold>
 }
