@@ -225,9 +225,7 @@ public class Controller {
 
     //<editor-fold desc="User Choices">
     public void exitChoice() {
-
         Platform.exit ();
-
     }
 
     public void saveFileDialog(ActionEvent actionEvent) {
@@ -252,11 +250,6 @@ public class Controller {
     }
     //</editor-fold>
 
-
-//    public void initialize() {
-//        textField.textProperty().bindBidirectional(model.messageProperty());
-//        listView.setItems(model.getChatMessages());
-//    }
 
     public void sendAction(ActionEvent actionEvent) {
         if (model.isConnected ())

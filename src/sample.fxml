@@ -48,8 +48,7 @@
                         <Menu mnemonicParsing="false" text="Nätverk">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#sendAction" text="Connect"/>
-                                <MenuItem mnemonicParsing="false" onAction="#disconnectAction" text="Disconnect"
-                                          disable="true"/>
+                                <MenuItem mnemonicParsing="false" onAction="#disconnectAction" text="Disconnect"/>
                             </items>
                         </Menu>
                     </menus>
