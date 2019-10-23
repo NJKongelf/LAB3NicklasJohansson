@@ -15,8 +15,9 @@ public class UndoSizeColor implements DoITcmd {
     }
 
     @Override
-    public void justdoit() {
+    public DrawShape justdoit() {
         shape.setSize (size);
         shape.setPaint (paint);
+        return shape;
     }
 }

@@ -1,5 +1,7 @@
 package undoAndRedo;
 
+import obj.DrawShape;
+
 public interface DoITcmd {
-    void justdoit();
+    DrawShape justdoit();
 }

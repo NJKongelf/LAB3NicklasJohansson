@@ -11,8 +11,7 @@ import undoAndRedo.Undochange;
 
 import java.util.Stack;
 public class Model {
-    Rect rect;
-    Circle circle;
+
     private Stack<DoITcmd> undolist = new Stack<> ();
     private ObservableList<DrawShape> items = FXCollections.observableArrayList();
 
@@ -64,10 +63,12 @@ public class Model {
         undolist.push (new UndoSizeColor (shape, shape.getSize (), shape.getPaint ()));
     }
 
-    public void undoPop() {
+    public DrawShape undoPop() {
+        DrawShape shape = null;
         if (!(undolist.empty ())) {
-            undolist.pop ().justdoit ();
+            shape = undolist.pop ().justdoit ();
         }
+        return shape;
     }
     //</editor-fold>
 }

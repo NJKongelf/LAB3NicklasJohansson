@@ -85,7 +85,7 @@ public class Controller {
 
                     public void handle(KeyEvent ke) {
                         if (ctrlZ.match (ke)) {
-                            model.undoPop ();
+                            shape = model.undoPop ();
                             ke.consume (); // <-- stops passing the event to next node
                         }
                     }
@@ -101,7 +101,6 @@ public class Controller {
         int y = (int) mouseEvent.getY ();
         MouseValue.setText ("X:" + x + " Y:" + y);
     }
-
     public void mouseClickedOnCanvas(MouseEvent event) {
         double x = event.getX ();
         double y = event.getY ();
@@ -195,7 +194,7 @@ public class Controller {
     }
 
     public void undoRequestFromMenu(ActionEvent actionEven) {
-        model.undoPop ();
+        shape = model.undoPop ();
     }
     //</editor-fold>
 

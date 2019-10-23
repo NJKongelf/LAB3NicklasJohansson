@@ -14,7 +14,8 @@ public class Undochange implements DoITcmd {
     }
 
     @Override
-    public void justdoit() {
+    public DrawShape justdoit() {
         undolist.remove (shapeForm);
+        return null;
     }
 }
